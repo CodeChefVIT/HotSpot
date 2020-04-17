@@ -2,10 +2,10 @@ import React from "react"
 import {Text, View, Image, StyleSheet, TouchableOpacity} from "react-native"
 import {MaterialIcons} from '@expo/vector-icons'
 
-function Navbar() {
+function Navbar(props) {
     return (
         <View style={styles.navbar}>
-            <TouchableOpacity style={styles.menu} onPress={() => console.log("Press")}>
+            <TouchableOpacity style={styles.menu} onPress={() => props.nav.openDrawer()}>
                 <MaterialIcons name="menu"size={32}/>
             </TouchableOpacity>
             <Image source={require('../assets/nav-brand.png')} style={styles.img}/>
