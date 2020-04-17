@@ -15,12 +15,14 @@ function App() {
     let {status} = await Permissions.askAsync(Permissions.LOCATION)
 
     if(status !== 'granted') {
-      changeState("Provide Permission")
+      changeLatitude("Provide Permission")
+      changeLongitude("Provide Permission")
     }
 
     let options = {
       accuracy: Location.Accuracy.Balanced,
-      timeInterval: 5000
+      timeInterval: 5000,
+      distanceInterval: 0,
     }
 
     Location.watchPositionAsync(options, (data) => {
@@ -61,6 +63,7 @@ function App() {
 
 const styles = StyleSheet.create({
   container: {
+    paddingTop: '1%',
     paddingLeft: 20,
     paddingRight: 20,
   },
