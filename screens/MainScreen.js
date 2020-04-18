@@ -28,6 +28,30 @@ function MainScreen({ navigation }) {
         Location.watchPositionAsync(options, (data) => {
             changeLatitude(data.coords.latitude)
             changeLongitude(data.coords.longitude)
+            
+            // if(latitude !== "Waiting..." && longitude !== "Waiting..." && carrier !== "Getting Carrier...." ){
+            //     var data = {
+            //         "ping": 100,
+            //         "latitude": latitude,
+            //         "longitude": longitude,
+            //         "isp": carrier,
+            //         "down": 69,
+            //         "up": 69
+            //     }
+
+            //     let response = fetch(
+            //         "https://hotspotsave.herokuapp.com/post/",
+            //         {
+            //             method: "POST",
+            //             headers: {
+            //                 "Accept": "application/json",
+            //                 "Content-Type": "application/json"
+            //             },
+            //             body: JSON.stringify(data)
+            //         }
+            //     ).then(() => console.log(response))
+                
+            // }
         })
     }
 
@@ -38,8 +62,8 @@ function MainScreen({ navigation }) {
     }
 
     useEffect(() => {
-        getLocation()
         getCarrier()
+        getLocation()
     })
 
     return (
@@ -69,6 +93,7 @@ const styles = StyleSheet.create({
         paddingTop: '2%',
         paddingLeft: 20,
         paddingRight: 20,
+        height: '100%',
     },
     map: {
         width: '100%',
