@@ -13,13 +13,18 @@ import {InfoContext} from './context/InfoContext'
 function App() {
   const [latitude, changeLatitude] = useState("Waiting...")
   const [longitude, changeLongitude] = useState("Waiting...")
+  const [altitude, changeAltitude] = useState("Waiting...")
   const [carrier, setCarrier] = useState("Getting Carrier....")
+  const [upSpeed, setUpSpeed] = useState("Waiting...")
+  const [downSpeed, setDownSpeed] = useState("Waiting...")
+  const [ping, setPing] = useState("Waiting....")
 
   const getLocation = async () => {
     let { status } = await Permissions.askAsync(Permissions.LOCATION)
     if (status !== 'granted') {
       changeLatitude("Provide Permission")
       changeLongitude("Provide Permission")
+      changeAltitude("Provide Permission")
     }
 
     let options = {
@@ -31,6 +36,7 @@ function App() {
     Location.watchPositionAsync(options, (data) => {
       changeLatitude(data.coords.latitude)
       changeLongitude(data.coords.longitude)
+      changeAltitude(data.coords.altitude)
       // if(latitude !== "Waiting..." && longitude !== "Waiting..." && carrier !== "Getting Carrier...." ){
       //     var data = {
       //         "ping": 100,
@@ -71,7 +77,11 @@ function App() {
   let info = {
     latitude: latitude,
     longitude: longitude,
+    altitude: altitude,
     carrier: carrier,
+    upSpeed: upSpeed,
+    downSpeed: downSpeed,
+    ping: ping
   }
   
 
