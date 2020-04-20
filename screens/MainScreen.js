@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import Navbar from "../components/Navbar";
 import MapView from 'react-native-maps';
-
 import {InfoContext} from '../context/InfoContext'
 
 function MainScreen({ navigation }) {
@@ -10,9 +9,7 @@ function MainScreen({ navigation }) {
     return (
         <View style={styles.container}>
             <Navbar nav={navigation} />
-            <Text>Latitude: {latitude}</Text>
-            <Text>Longitude: {longitude}</Text>
-            <Text>Carrier: {carrier}</Text>
+            <Text>Showing map for Carrier: {carrier}</Text>
             <MapView
                 initialRegion={{
                     latitude: latitude,
@@ -22,6 +19,7 @@ function MainScreen({ navigation }) {
                 }}
                 style={styles.map}
             />
+            <Text>The regions with green have max Signal Strength and the red have the least</Text>
         </View>
     );
 }
