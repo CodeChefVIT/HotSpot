@@ -7,6 +7,7 @@ import * as Permissions from 'expo-permissions'
 import * as Location from 'expo-location';
 import MainScreen from './screens/MainScreen'
 import Info from './screens/Info'
+import Settings from './screens/Settings'
 
 import {InfoContext} from './context/InfoContext'
 
@@ -92,6 +93,7 @@ function App() {
         <Drawer.Navigator initialRouteName="Home" >
           <Drawer.Screen name="Home" component={MainScreen} />
           <Drawer.Screen name="Your Info" component={Info} />
+          <Drawer.Screen name="Settings" component={Settings} />
         </Drawer.Navigator>
       </NavigationContainer>
     </InfoContext.Provider>

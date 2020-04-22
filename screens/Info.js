@@ -8,11 +8,11 @@ import { MaterialIcons } from '@expo/vector-icons'
 function Info({navigation}) {
     const {latitude, longitude, altitude, carrier, downSpeed, upSpeed, ping} = React.useContext(InfoContext)
     return (
-        <ScrollView>
-            <View style={styles.container}>
+        <ScrollView style={styles.container}>
+            <View>
                 <Navbar nav = {navigation}/>
                 <View>
-                    <Text style={[styles.heading, styles.center, styles.bold, styles.blue]}>YOUR INFO</Text>
+                    <Text style={[styles.heading, styles.center, styles.bold, styles.blue]}>Your Information</Text>
                     <Text style={styles.f20}><Text style={styles.bold, styles.blue}>Latitude:</Text>{latitude}</Text>
                     <Text style={styles.f20}><Text style={styles.bold, styles.blue}>Longitude:</Text>{longitude}</Text>
                     <Text style={styles.f20}><Text style={styles.bold, styles.blue}>Altitude:</Text>{altitude}</Text>
@@ -49,15 +49,15 @@ const styles = StyleSheet.create({
         fontWeight: 'bold'
     },
     heading: {
-        fontSize: 36,
+        fontSize: 30,
         paddingBottom: 20
     },
     f20: {
-        fontSize: 22,
+        fontSize: 20,
         paddingBottom: 10
     },
     f24: {
-        fontSize: 24,
+        fontSize: 20,
         paddingBottom: 20
     }
 })
