@@ -1,22 +1,31 @@
-import React from "react"
-import {View, StyleSheet, Text, TouchableOpacity} from "react-native"
-import {SimpleLineIcons, Entypo} from '@expo/vector-icons'
+import React, { useState } from "react"
+import { View, StyleSheet, Text, TouchableOpacity } from "react-native"
+import { SimpleLineIcons, Entypo } from '@expo/vector-icons'
+import DisplayModal from './DisplayModal'
 
 function SettingsItem(props) {
     let icon = null
-    if(props.name === "Display") {
-        icon = <SimpleLineIcons name="screen-smartphone" size={25} color="#888" />
-    } else if(props.name === "Help") {
-        icon = <Entypo name="help" size={25} color="#888" />
-    } else if(props.name === "Permissions") {
-        icon = <Entypo name="book" size={25} color="#888" />
-    } else if(props.name === "About") {
-        icon = <SimpleLineIcons name="user" size={25} color="#888" />
+    let modal = null
+    let size = 25
+    let color = "#0027a8"
+
+    if (props.name === "Display") {
+        icon = <SimpleLineIcons name="screen-smartphone" size={size} color={color} />
+    } else if (props.name === "Help") {
+        icon = <Entypo name="help" size={size} color={color} />
+    } else if (props.name === "Permissions") {
+        icon = <Entypo name="book" size={size} color={color} />
+    } else if (props.name === "About") {
+        icon = <SimpleLineIcons name="user" size={size} color={color} />
     }
 
-    
+    const handlePress = () => {
+        props.onPress(true)
+    }
+
+
     return (
-        <TouchableOpacity style={styles.container}>
+        <TouchableOpacity style={styles.container} onPress={handlePress}>
             <View style={styles.row}>
                 {icon}
                 <Text style={styles.text}>{props.name}</Text>
