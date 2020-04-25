@@ -1,11 +1,9 @@
 import React, { useState } from "react"
 import { View, StyleSheet, Text, TouchableOpacity } from "react-native"
 import { SimpleLineIcons, Entypo } from '@expo/vector-icons'
-import DisplayModal from './DisplayModal'
 
 function SettingsItem(props) {
     let icon = null
-    let modal = null
     let size = 25
     let color = "#0027a8"
 

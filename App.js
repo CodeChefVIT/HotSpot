@@ -67,6 +67,31 @@ function App() {
     })
   }
 
+  let speed = 0
+  const getDownSpeed = async () => {
+    let uri = "https://images.pexels.com/photos/248159/pexels-photo-248159.jpeg?crop=entropy&cs=srgb&dl=road-in-city-during-sunset-248159.jpg&fit=crop&fm=jpg&h=3519&w=5279"
+    let size = 2059767
+    const start = new Date().getTime()
+
+    await fetch(uri, {
+      headers: {
+        'Cache-Control': 'no-cache, no-store, must-revalidate',
+        'Pragma': 'no-cache',
+        'Expires': 0
+      }
+    }).then(() => {
+      const end = new Date().getTime()
+      let timeTaken = end-start
+ 
+      speed = (size/1024)/(timeTaken/1000)
+    }).then(() => {
+      setDownSpeed(speed.toFixed(3))
+      setTimeout(() => {
+        getDownSpeed()
+      }, 120000)
+    })
+  }
+
   const getCarrier = () => {
     NetInfo.fetch().then(data => {
       setCarrier(data.details.carrier)
@@ -76,7 +101,8 @@ function App() {
   useEffect(() => {
     getCarrier()
     getLocation()
-  })
+    getDownSpeed()
+  }, [])
 
   let info = {
     latitude: latitude,

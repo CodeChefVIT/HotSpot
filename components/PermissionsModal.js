@@ -22,7 +22,6 @@ function PermissionsModal(props) {
         checkPermission()
     })
 
-
     const closeModal = () => {
         props.changeVisibility(false)
     }
@@ -31,7 +30,7 @@ function PermissionsModal(props) {
         <Modal isVisible={props.visibility} transparent={true}>
             <View style={styles.container}>
                 <Text style={styles.text}>{text}</Text>
-                <Button title="Close" onPress={closeModal}/>
+                <Button title="Close" onPress={closeModal} />
             </View>
         </Modal>
     )
