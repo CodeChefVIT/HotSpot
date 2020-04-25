@@ -1,16 +1,36 @@
-import React from "react"
+import React, { useEffect } from "react"
 import { Text, View, Button, StyleSheet } from "react-native"
 import Modal from 'react-native-modal'
-import { TouchableOpacity } from "react-native-gesture-handler"
+import * as Permissions from 'expo-permissions'
 
 function PermissionsModal(props) {
+    let text = null
+
+    const checkPermission = async () => {
+        const { status } = Permissions.askAsync(Permissions.LOCATION)
+
+        if(status !== "granted") {
+            text = <Text>You have not given LOCATION permission</Text>
+        }
+        else {
+            text = <Text>You have already given LOCATION permission</Text>
+        }
+    }
+
+    useEffect(() => {
+        checkPermission()
+    })
+
+
     const closeModal = () => {
         props.changeVisibility(false)
     }
+
+
     return (
         <Modal isVisible={props.visibility} transparent={true}>
             <View style={styles.container}>
-                <Text>Hello from Permissions Modal</Text>
+                {text}
                 <Button title="Close" onPress={closeModal}/>
             </View>
         </Modal>
