@@ -15,13 +15,16 @@ function App() {
   const [latitude, changeLatitude] = useState("Waiting...")
   const [longitude, changeLongitude] = useState("Waiting...")
   const [altitude, changeAltitude] = useState("Waiting...")
+  const [locationPermission, changeLocPerm] = useState("Waiting...")
   const [carrier, setCarrier] = useState("Getting Carrier....")
   const [upSpeed, setUpSpeed] = useState("Waiting...")
   const [downSpeed, setDownSpeed] = useState("Waiting...")
   const [ping, setPing] = useState("Waiting....")
 
   const getLocation = async () => {
-    let { status } = await Permissions.askAsync(Permissions.LOCATION)
+    let {status} = await Permissions.askAsync(Permissions.LOCATION)
+    changeLocPerm(status)
+
     if (status !== 'granted') {
       changeLatitude("Provide Permission")
       changeLongitude("Provide Permission")
@@ -79,6 +82,7 @@ function App() {
     latitude: latitude,
     longitude: longitude,
     altitude: altitude,
+    locPerm: locationPermission,
     carrier: carrier,
     upSpeed: upSpeed,
     downSpeed: downSpeed,

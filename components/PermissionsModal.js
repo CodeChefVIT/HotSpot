@@ -1,19 +1,20 @@
-import React, { useEffect } from "react"
+import React, { useEffect, useState } from "react"
 import { Text, View, Button, StyleSheet } from "react-native"
 import Modal from 'react-native-modal'
-import * as Permissions from 'expo-permissions'
+import {InfoContext} from '../context/InfoContext'
 
 function PermissionsModal(props) {
-    let text = null
+    const [text, changeText] = useState("Wait!")
 
-    const checkPermission = async () => {
-        const { status } = Permissions.askAsync(Permissions.LOCATION)
+    const {locPerm} = React.useContext(InfoContext)
 
-        if(status !== "granted") {
-            text = <Text>You have not given LOCATION permission</Text>
+
+    const checkPermission = () => {
+        if(locPerm !== "granted") {
+            changeText("You have not given LOCATION permission")
         }
         else {
-            text = <Text>You have already given LOCATION permission</Text>
+            changeText("You have already given LOCATION permission")
         }
     }
 
@@ -26,11 +27,10 @@ function PermissionsModal(props) {
         props.changeVisibility(false)
     }
 
-
     return (
         <Modal isVisible={props.visibility} transparent={true}>
             <View style={styles.container}>
-                {text}
+                <Text style={styles.text}>{text}</Text>
                 <Button title="Close" onPress={closeModal}/>
             </View>
         </Modal>
@@ -43,9 +43,15 @@ const styles = StyleSheet.create({
     container: {
         marginHorizontal: '10%',
         padding: '5%',
+        paddingBottom: '2%',
         backgroundColor: 'white',
         justifyContent: 'center',
         alignItems: 'center',
         borderRadius: 4,
+    },
+    text: {
+        fontWeight: 'bold',
+        textAlign: 'center',
+        marginBottom: '5%'
     }
 })
