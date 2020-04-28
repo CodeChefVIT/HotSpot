@@ -1,16 +1,22 @@
 import React from "react"
 import { View, Text, StyleSheet, ScrollView } from "react-native"
 import Navbar from '../components/Navbar'
-import {InfoContext} from '../context/InfoContext'
+import { InfoContext } from '../context/InfoContext'
 import { MaterialIcons } from '@expo/vector-icons'
 
 
-function Info({navigation}) {
-    const {latitude, longitude, altitude, carrier, downSpeed, upSpeed, ping} = React.useContext(InfoContext)
+function Info({ navigation }) {
+    const { latitude, longitude, altitude, carrier, downSpeed, upSpeed, ping } = React.useContext(InfoContext)
+    let metric = null
+
+    if (downSpeed != "Waiting...") {
+        metric = "KB/s"
+    }
+
     return (
         <ScrollView style={styles.container}>
             <View>
-                <Navbar nav = {navigation}/>
+                <Navbar nav={navigation} />
                 <View>
                     <Text style={[styles.heading, styles.center, styles.bold, styles.blue]}>Your Information</Text>
                     <Text style={styles.f20}><Text style={styles.bold, styles.blue}>Latitude:</Text>{latitude}</Text>
@@ -18,11 +24,11 @@ function Info({navigation}) {
                     <Text style={styles.f20}><Text style={styles.bold, styles.blue}>Altitude:</Text>{altitude}</Text>
                     <Text style={styles.f20}><Text style={styles.bold, styles.blue}>Carrier:</Text>{carrier}</Text>
                     <Text style={[styles.bold, styles.blue, styles.f24]}>Download Speed:</Text>
-                    <Text style={[styles.f24, styles.center, styles.blue]}><MaterialIcons name="cloud-download" size={36}/> {downSpeed} KB/s</Text>
+                    <Text style={[styles.f24, styles.center, styles.blue]}><MaterialIcons name="cloud-download" size={36} /> {downSpeed} {metric} </Text>
                     <Text style={[styles.bold, styles.blue, styles.f24]}>Upload Speed:</Text>
-                    <Text style={[styles.f24, styles.center, styles.blue]}><MaterialIcons name="cloud-upload" size={36}/> {upSpeed}</Text>
+                    <Text style={[styles.f24, styles.center, styles.blue]}><MaterialIcons name="cloud-upload" size={36} /> {upSpeed}</Text>
                     <Text style={[styles.bold, styles.blue, styles.f24]}>Ping:</Text>
-                    <Text style={[styles.f24, styles.center, styles.blue]}><MaterialIcons name="compare-arrows" size={36}/> {ping}</Text>
+                    <Text style={[styles.f24, styles.center, styles.blue]}><MaterialIcons name="compare-arrows" size={36} /> {ping}</Text>
                 </View>
             </View>
         </ScrollView>
@@ -37,7 +43,7 @@ const styles = StyleSheet.create({
         paddingTop: '2%',
         paddingLeft: 20,
         paddingRight: 20,
-        height: '100%'        
+        height: '100%'
     },
     center: {
         textAlign: 'center'
