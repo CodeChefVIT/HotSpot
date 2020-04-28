@@ -7,24 +7,14 @@ import PermissionsModal from '../components/PermissionsModal'
 import HelpModal from '../components/HelpModal'
 import AboutModal from '../components/AboutModal'
 import * as themes from '../components/Themes'
+import { InfoContext } from "../context/InfoContext"
 
 function Settings({ navigation }) {
     const [displayModalVisibility, setDisplayModal] = useState(false)
     const [permissionModalVisibility, setPermissionModal] = useState(false)
     const [helpModalVisibility, setHelpModal] = useState(false)
     const [aboutModalVisibility, setAboutModal] = useState(false)
-    const [theme, changeTheme] = useState("light")
-
-    const getTheme = async () => {
-        let value = await AsyncStorage.getItem('theme');
-        if(value !== null){
-            changeTheme(value);
-        }
-    }
-
-    useEffect(() => {
-        getTheme()
-    })
+    const {theme} = React.useContext(InfoContext)
 
     const styles = StyleSheet.create({
         container: {

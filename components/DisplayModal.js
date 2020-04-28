@@ -2,10 +2,11 @@ import React, { useState, useEffect } from "react"
 import { Text, View, Button, StyleSheet, Picker, AsyncStorage } from "react-native"
 import Modal from 'react-native-modal'
 import * as themes from '../components/Themes'
+import {InfoContext} from '../context/InfoContext'
 
 
 function DisplayModal(props) {
-    const [theme, changeTheme] = useState("light")
+    const {theme, changeTheme} = React.useContext(InfoContext)
     const [item, changeItem] = useState("light")
     
     const getTheme = async () => {

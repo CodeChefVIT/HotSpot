@@ -8,14 +8,7 @@ function PermissionsModal(props) {
     const [text, changeText] = useState("Wait!")
 
     const {locPerm} = React.useContext(InfoContext)
-    const [theme, changeTheme] = useState("light")
-
-    const getTheme = async () => {
-        let value = await AsyncStorage.getItem('theme');
-        if(value !== null){
-            changeTheme(value);
-        }
-    }
+    const {theme} = React.useContext(InfoContext)
 
     const checkPermission = () => {
         if(locPerm !== "granted") {
@@ -27,7 +20,6 @@ function PermissionsModal(props) {
     }
 
     useEffect(() => {
-        getTheme()
         checkPermission()
     })
 

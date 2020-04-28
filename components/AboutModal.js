@@ -3,21 +3,12 @@ import { Text, View, Button, StyleSheet, AsyncStorage } from "react-native"
 import Modal from 'react-native-modal'
 import * as themes from '../components/Themes'
 import { TouchableOpacity } from "react-native-gesture-handler"
+import { InfoContext } from "../context/InfoContext"
 
 
 function AboutModal(props) {
-    const [theme, changeTheme] = useState("light")
-    
-    const getTheme = async () => {
-        let value = await AsyncStorage.getItem('theme');
-        if(value !== null){
-            changeTheme(value);
-        }
-    }
+    const {theme} = React.useContext(InfoContext)
 
-    useEffect(() => {
-        getTheme()
-    })
     const closeModal = () => {
         props.changeVisibility(false)
     }

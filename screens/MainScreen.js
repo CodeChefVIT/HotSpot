@@ -6,19 +6,8 @@ import {InfoContext} from '../context/InfoContext'
 import * as themes from '../components/Themes'
 
 function MainScreen({ navigation }) {
-    const {latitude, longitude, carrier} = React.useContext(InfoContext)
-    const [theme, changeTheme] = useState("light")
+    const {latitude, longitude, carrier, theme} = React.useContext(InfoContext)
 
-    const getTheme = async () => {
-        let value = await AsyncStorage.getItem('theme');
-        if(value !== null){
-            changeTheme(value);
-        }
-    }
-
-    useEffect(() => {
-        getTheme()
-    })
 
     const styles = StyleSheet.create({
         container: {

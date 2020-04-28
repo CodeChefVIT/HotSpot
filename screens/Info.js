@@ -16,18 +16,7 @@ function Info({navigation}) {
         metric = "KB/s"
     }
 
-    const [theme, changeTheme] = useState("light")
-
-    const getTheme = async () => {
-        let value = await AsyncStorage.getItem('theme');
-        if(value !== null){
-            changeTheme(value);
-        }
-    }
-
-    useEffect(() => {
-        getTheme()
-    })
+    const {theme} = React.useContext(InfoContext)
 
     const styles = StyleSheet.create({
         container: {

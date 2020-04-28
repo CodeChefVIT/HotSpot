@@ -2,21 +2,11 @@ import React, { useEffect, useState } from "react"
 import { Text, View, Image, StyleSheet, TouchableOpacity, AsyncStorage } from "react-native"
 import { MaterialIcons } from '@expo/vector-icons'
 import * as themes from '../components/Themes'
+import { InfoContext } from "../context/InfoContext"
 
 function Navbar(props) {
 
-    const [theme, changeTheme] = useState("light")
-
-    const getTheme = async () => {
-        let value = await AsyncStorage.getItem('theme');
-        if(value !== null){
-            changeTheme(value);
-        }
-    }
-
-    useEffect(() => {
-        getTheme()
-    })
+    const {theme} = React.useContext(InfoContext)
 
     const styles = StyleSheet.create({
         navbar: {

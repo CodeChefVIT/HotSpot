@@ -2,22 +2,11 @@ import React, { useState, useEffect } from "react"
 import { View, StyleSheet, Text, TouchableOpacity, AsyncStorage } from "react-native"
 import { SimpleLineIcons, Entypo } from '@expo/vector-icons'
 import * as themes from '../components/Themes'
+import { InfoContext } from "../context/InfoContext"
 
 function SettingsItem(props) {
     
-    const [theme, changeTheme] = useState("light")
-
-    const getTheme = async () => {
-        let value = await AsyncStorage.getItem('theme');
-        if(value !== null){
-            changeTheme(value);
-        }
-    }
-
-    useEffect(() =>
-    {
-        getTheme()
-    })
+    const {theme}= React.useContext(InfoContext)
     
     let icon = null
     let size = 25
