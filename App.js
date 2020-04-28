@@ -30,6 +30,9 @@ function App() {
     else{
       setTheme()
     }
+    setTimeout(() => {
+      getTheme()
+    }, 100)
   }
 
   const setTheme = async () => {
