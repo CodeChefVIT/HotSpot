@@ -1,11 +1,27 @@
-import React, { useState } from "react"
-import { View, StyleSheet, Text, TouchableOpacity } from "react-native"
+import React, { useState, useEffect } from "react"
+import { View, StyleSheet, Text, TouchableOpacity, AsyncStorage } from "react-native"
 import { SimpleLineIcons, Entypo } from '@expo/vector-icons'
+import * as themes from '../components/Themes'
 
 function SettingsItem(props) {
+    
+    const [theme, changeTheme] = useState("light")
+
+    const getTheme = async () => {
+        let value = await AsyncStorage.getItem('theme');
+        if(value !== null){
+            changeTheme(value);
+        }
+    }
+
+    useEffect(() =>
+    {
+        getTheme()
+    })
+    
     let icon = null
     let size = 25
-    let color = "#0027a8"
+    let color = themes[theme].blue
 
     if (props.name === "Display") {
         icon = <SimpleLineIcons name="screen-smartphone" size={size} color={color} />
@@ -21,6 +37,24 @@ function SettingsItem(props) {
         props.onPress(true)
     }
 
+    const styles = StyleSheet.create({
+        container: {
+            padding: 10,
+            justifyContent: 'center',
+            height: '10%',
+            borderBottomWidth: 0.5,
+            borderBottomColor: '#ccc',
+        },
+        text: {
+            fontSize: 20,
+            paddingLeft: 10,
+            color: themes[theme].text,
+        },
+        row: {
+            flexDirection: 'row',
+            alignItems: 'center',
+        },
+    })
 
     return (
         <TouchableOpacity style={styles.container} onPress={handlePress}>
@@ -33,21 +67,3 @@ function SettingsItem(props) {
 }
 
 export default SettingsItem
-
-const styles = StyleSheet.create({
-    container: {
-        padding: 10,
-        justifyContent: 'center',
-        height: '10%',
-        borderBottomWidth: 0.5,
-        borderBottomColor: '#ccc',
-    },
-    text: {
-        fontSize: 20,
-        paddingLeft: 10,
-    },
-    row: {
-        flexDirection: 'row',
-        alignItems: 'center',
-    },
-})

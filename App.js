@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { View } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native'
+import { View, AsyncStorage } from 'react-native';
+import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/native'
 import { createDrawerNavigator } from '@react-navigation/drawer'
 import NetInfo from '@react-native-community/netinfo'
 import * as Permissions from 'expo-permissions'
@@ -8,7 +8,7 @@ import * as Location from 'expo-location';
 import MainScreen from './screens/MainScreen'
 import Info from './screens/Info'
 import Settings from './screens/Settings'
-
+import * as themes from './components/Themes'
 import {InfoContext} from './context/InfoContext'
 
 function App() {
@@ -20,6 +20,21 @@ function App() {
   const [upSpeed, setUpSpeed] = useState("Waiting...")
   const [downSpeed, setDownSpeed] = useState("Waiting...")
   const [ping, setPing] = useState("Waiting....")
+  const [theme, changeTheme] = useState("light")
+
+  const getTheme = async () => {
+    let value = await AsyncStorage.getItem('theme');
+    if(value !== null){
+      changeTheme(value);
+    }
+    else{
+      setTheme()
+    }
+  }
+
+  const setTheme = async () => {
+    await AsyncStorage.setItem('theme', theme);
+  }
 
   const getLocation = async () => {
     let {status} = await Permissions.askAsync(Permissions.LOCATION)
@@ -99,6 +114,7 @@ function App() {
   }
     
   useEffect(() => {
+    getTheme()
     getCarrier()
     getLocation()
     getDownSpeed()
@@ -119,7 +135,7 @@ function App() {
   const Drawer = createDrawerNavigator()
   return (
     <InfoContext.Provider value={info}>
-      <NavigationContainer>
+      <NavigationContainer theme={theme === 'dark' ? DarkTheme : DefaultTheme}>
         <Drawer.Navigator initialRouteName="Home" >
           <Drawer.Screen name="Home" component={MainScreen} />
           <Drawer.Screen name="Your Info" component={Info} />

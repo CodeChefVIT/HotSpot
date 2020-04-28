@@ -1,13 +1,21 @@
 import React, { useEffect, useState } from "react"
-import { Text, View, Button, StyleSheet } from "react-native"
+import { Text, View, Button, StyleSheet, AsyncStorage } from "react-native"
 import Modal from 'react-native-modal'
 import {InfoContext} from '../context/InfoContext'
+import * as themes from '../components/Themes'
 
 function PermissionsModal(props) {
     const [text, changeText] = useState("Wait!")
 
     const {locPerm} = React.useContext(InfoContext)
+    const [theme, changeTheme] = useState("light")
 
+    const getTheme = async () => {
+        let value = await AsyncStorage.getItem('theme');
+        if(value !== null){
+            changeTheme(value);
+        }
+    }
 
     const checkPermission = () => {
         if(locPerm !== "granted") {
@@ -19,12 +27,31 @@ function PermissionsModal(props) {
     }
 
     useEffect(() => {
+        getTheme()
         checkPermission()
     })
 
     const closeModal = () => {
         props.changeVisibility(false)
     }
+
+    const styles = StyleSheet.create({
+        container: {
+            marginHorizontal: '10%',
+            padding: '5%',
+            paddingBottom: '5%',
+            backgroundColor: themes[theme].background,
+            justifyContent: 'center',
+            alignItems: 'center',
+            borderRadius: 4,
+        },
+        text: {
+            fontWeight: 'bold',
+            textAlign: 'center',
+            marginBottom: '5%',
+            color: themes[theme].text,
+        }
+    })
 
     return (
         <Modal isVisible={props.visibility} transparent={true}>
@@ -37,20 +64,3 @@ function PermissionsModal(props) {
 }
 
 export default PermissionsModal
-
-const styles = StyleSheet.create({
-    container: {
-        marginHorizontal: '10%',
-        padding: '5%',
-        paddingBottom: '2%',
-        backgroundColor: 'white',
-        justifyContent: 'center',
-        alignItems: 'center',
-        borderRadius: 4,
-    },
-    text: {
-        fontWeight: 'bold',
-        textAlign: 'center',
-        marginBottom: '5%'
-    }
-})
