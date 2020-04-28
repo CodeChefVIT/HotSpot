@@ -1,15 +1,34 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, AsyncStorage } from 'react-native';
 import Navbar from "../components/Navbar";
 import MapView from 'react-native-maps';
 import {InfoContext} from '../context/InfoContext'
+import * as themes from '../components/Themes'
 
 function MainScreen({ navigation }) {
-    const {latitude, longitude, carrier} = React.useContext(InfoContext)
+    const {latitude, longitude, carrier, theme} = React.useContext(InfoContext)
+
+
+    const styles = StyleSheet.create({
+        container: {
+            backgroundColor: themes[theme].background,
+            paddingTop: '2%',
+            paddingLeft: 20,
+            paddingRight: 20,
+            height: '100%',
+        },
+        map: {
+            width: '100%',
+            height: '75%',
+        },
+        text: {
+            color: themes[theme].text,
+        }
+    });
     return (
         <View style={styles.container}>
             <Navbar nav={navigation} />
-            <Text>Showing map for Carrier: {carrier}</Text>
+            <Text style={styles.text}>Showing map for Carrier: {carrier}</Text>
             <MapView
                 initialRegion={{
                     latitude: latitude,
@@ -19,23 +38,9 @@ function MainScreen({ navigation }) {
                 }}
                 style={styles.map}
             />
-            <Text>The regions with green have max Signal Strength and the red have the least</Text>
+            <Text style={styles.text}>The regions with green have max Signal Strength and the red have the least</Text>
         </View>
     );
 }
 
 export default MainScreen
-
-const styles = StyleSheet.create({
-    container: {
-        backgroundColor: 'white',
-        paddingTop: '2%',
-        paddingLeft: 20,
-        paddingRight: 20,
-        height: '100%',
-    },
-    map: {
-        width: '100%',
-        height: '75%',
-    }
-});
