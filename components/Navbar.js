@@ -7,6 +7,13 @@ import { InfoContext } from "../context/InfoContext"
 function Navbar(props) {
 
     const {theme} = React.useContext(InfoContext)
+    let img = require('../assets/nav-brand.png')
+
+    if(theme === 'light') {
+        img = require('../assets/nav-brand.png')
+    } else if(theme === 'dark') {
+        img = require('../assets/hotspot-dark.png')
+    }
 
     const styles = StyleSheet.create({
         navbar: {
@@ -31,7 +38,7 @@ function Navbar(props) {
             <TouchableOpacity style={styles.menu} onPress={() => props.nav.openDrawer()}>
                 <MaterialIcons name="menu" size={32} color={themes[theme].text}/>
             </TouchableOpacity>
-            <Image source={require('../assets/nav-brand.png')} style={styles.img} />
+            <Image source={img} style={styles.img} />
         </View>
     )
 }
