@@ -21,7 +21,6 @@ function Info({navigation}) {
     const styles = StyleSheet.create({
         container: {
             backgroundColor: themes[theme].background,
-            paddingTop: '2%',
             paddingLeft: 20,
             paddingRight: 20,
             height: '100%'        

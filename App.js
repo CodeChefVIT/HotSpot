@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, AsyncStorage } from 'react-native';
+import { View, AsyncStorage, StatusBar } from 'react-native';
 import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/native'
 import { createDrawerNavigator } from '@react-navigation/drawer'
 import NetInfo from '@react-native-community/netinfo'
@@ -8,7 +8,6 @@ import * as Location from 'expo-location';
 import MainScreen from './screens/MainScreen'
 import Info from './screens/Info'
 import Settings from './screens/Settings'
-import * as themes from './components/Themes'
 import { InfoContext } from './context/InfoContext'
 
 function App() {
@@ -67,10 +66,14 @@ function App() {
 			//         "isp": carrier,
 			//         "down": 69,
 			//         "up": 69
-			//     }
+			// 	}
+				
+			// 	let url = "https://hotspotsave.herokuapp.com/post?ping=" + data["ping"] + 
+			// 			"&latitude=" + data["latitude"] + "&longitude=" + data["longitude"] + 
+			// 			"&isp=" + data["isp"] + "&down=" + data["down"]
 
 			//     let response = fetch(
-			//         "https://hotspotsave.herokuapp.com/post/",
+			//         url,
 			//         {
 			//             method: "POST",
 			//             headers: {
@@ -80,7 +83,6 @@ function App() {
 			//             body: JSON.stringify(data)
 			//         }
 			//     ).then(() => console.log(response))
-
 			// }
 		})
 	}
@@ -140,6 +142,10 @@ function App() {
 	const Drawer = createDrawerNavigator()
 	return (
 		<InfoContext.Provider value={info}>
+			<StatusBar 
+				backgroundColor={theme === "dark" ? "#161616" : "white"}
+				barStyle={theme === "dark" ? "default" : "dark-content"}
+			/>
 			<NavigationContainer theme={theme === 'dark' ? DarkTheme : DefaultTheme}>
 				<Drawer.Navigator initialRouteName="Home" >
 					<Drawer.Screen name="Home" component={MainScreen} />
