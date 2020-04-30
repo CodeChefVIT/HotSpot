@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, AsyncStorage, StatusBar } from 'react-native';
+import { View, AsyncStorage, StatusBar, Text } from 'react-native';
 import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/native'
 import { createDrawerNavigator } from '@react-navigation/drawer'
 import NetInfo from '@react-native-community/netinfo'
@@ -20,6 +20,8 @@ function App() {
 	const [downSpeed, setDownSpeed] = useState("Waiting...")
 	const [ping, setPing] = useState("Waiting....")
 	const [theme, changeTheme] = useState("light")
+
+	const [data, changeData] = useState("Getting Data")
 
 	const getTheme = async () => {
 		let value = await AsyncStorage.getItem('theme');
@@ -118,7 +120,18 @@ function App() {
 		})
 	}
 
+	const getData = async () => {
+		if(carrier != "Getting Carrier....") {
+			let url = "https://hotspotsave.herokuapp.com/" + carrier
+			await fetch(url).then(res => res.json()).then((result) => {
+				changeData(result)
+			})
+			
+		}
+	}
+
 	useEffect(() => {
+		getData()
 		getTheme()
 		getCarrier()
 		getLocation()

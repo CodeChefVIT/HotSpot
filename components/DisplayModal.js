@@ -9,21 +9,9 @@ function DisplayModal(props) {
     const {theme, changeTheme} = React.useContext(InfoContext)
     const [item, changeItem] = useState("light")
     
-    const getTheme = async () => {
-        let value = await AsyncStorage.getItem('theme');
-        if(value !== null){
-            changeTheme(value);
-            changeItem(value);
-        }
-    }
-    
     const setTheme = async (value) => {
         await AsyncStorage.setItem('theme', value);
     }
-
-    useEffect(() => {
-        getTheme()
-    })
 
     const closeModal = () => {
         props.changeVisibility(false)
