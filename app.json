@@ -27,7 +27,12 @@
     "android": {
       "permissions": ["ACCESS_COARSE_LOCATION", "ACCESS_FINE_LOCATION"],
       "package": "com.codechefvit.hotspot",
-      "versionCode": 1
+      "versionCode": 1,
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyAjvVmSI9rdu-07jpPkCNfZvgUvNE9_wXs"
+        }
+      }
     }
   }
 }

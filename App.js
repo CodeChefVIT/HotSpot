@@ -66,8 +66,7 @@ function App() {
 			//         "latitude": latitude,
 			//         "longitude": longitude,
 			//         "isp": carrier,
-			//         "down": 69,
-			//         "up": 69
+			//         "down": downSpeed !== "Waiting..." ? 0 : downSpeed
 			// 	}
 				
 			// 	let url = "https://hotspotsave.herokuapp.com/post?ping=" + data["ping"] + 
@@ -123,8 +122,19 @@ function App() {
 	const getData = async () => {
 		if(carrier != "Getting Carrier....") {
 			let url = "https://hotspotsave.herokuapp.com/" + carrier
-			await fetch(url).then(res => res.json()).then((result) => {
-				changeData(result)
+			fetch(url).then(res => res.json()).then((result) => {
+				let points = []
+				result.map((point) => {
+					let obj = {
+						latitude: Number(point["latitude"]),
+						longitude: Number(point["longitude"]),
+						weight: point["down"] === undefined ? 0: Number(point["down"])
+					}
+
+					points.push(obj)
+				})
+				changeData(points)
+				console.log(data)
 			})
 			
 		}
@@ -148,7 +158,8 @@ function App() {
 		downSpeed: downSpeed,
 		ping: ping,
 		theme: theme,
-		changeTheme: changeTheme
+		changeTheme: changeTheme,
+		points: data
 	}
 
 
