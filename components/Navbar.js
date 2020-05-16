@@ -18,7 +18,6 @@ function Navbar(props) {
     const styles = StyleSheet.create({
         navbar: {
             width: '100%',
-            paddingTop: '5%',
             justifyContent: 'center',
             alignItems: "center",
             flexDirection: 'row',

@@ -9,21 +9,9 @@ function DisplayModal(props) {
     const {theme, changeTheme} = React.useContext(InfoContext)
     const [item, changeItem] = useState("light")
     
-    const getTheme = async () => {
-        let value = await AsyncStorage.getItem('theme');
-        if(value !== null){
-            changeTheme(value);
-            changeItem(value);
-        }
-    }
-    
     const setTheme = async (value) => {
         await AsyncStorage.setItem('theme', value);
     }
-
-    useEffect(() => {
-        getTheme()
-    })
 
     const closeModal = () => {
         props.changeVisibility(false)
@@ -45,20 +33,20 @@ function DisplayModal(props) {
             padding: '5%',
             paddingTop: '10%',
             paddingBottom: '2%',
-            backgroundColor: themes[item].background,
+            backgroundColor: themes[theme].background,
             justifyContent: 'center',
             alignItems: 'center',
             borderRadius: 4,
         },
         head: {
             fontWeight: 'bold',
-            color: themes[item].text
+            color: themes[theme].text
         },
         picker: {
             width: '100%',
             marginBottom: '5%',
-            color: themes[item].text,
-            backgroundColor: themes[item].fade,
+            color: themes[theme].text,
+            backgroundColor: themes[theme].fade,
         }
     })
 

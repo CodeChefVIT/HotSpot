@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, AsyncStorage } from 'react-native';
+import { View, AsyncStorage, StatusBar, Text } from 'react-native';
 import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/native'
 import { createDrawerNavigator } from '@react-navigation/drawer'
 import NetInfo from '@react-native-community/netinfo'
@@ -8,7 +8,6 @@ import * as Location from 'expo-location';
 import MainScreen from './screens/MainScreen'
 import Info from './screens/Info'
 import Settings from './screens/Settings'
-import * as themes from './components/Themes'
 import { InfoContext } from './context/InfoContext'
 
 function App() {
@@ -21,6 +20,8 @@ function App() {
 	const [downSpeed, setDownSpeed] = useState("Waiting...")
 	const [ping, setPing] = useState("Waiting....")
 	const [theme, changeTheme] = useState("light")
+
+	const [data, changeData] = useState("Getting Data")
 
 	const getTheme = async () => {
 		let value = await AsyncStorage.getItem('theme');
@@ -65,12 +66,15 @@ function App() {
 			//         "latitude": latitude,
 			//         "longitude": longitude,
 			//         "isp": carrier,
-			//         "down": 69,
-			//         "up": 69
-			//     }
+			//         "down": downSpeed !== "Waiting..." ? 0 : downSpeed
+			// 	}
+				
+			// 	let url = "https://hotspotsave.herokuapp.com/post?ping=" + data["ping"] + 
+			// 			"&latitude=" + data["latitude"] + "&longitude=" + data["longitude"] + 
+			// 			"&isp=" + data["isp"] + "&down=" + data["down"]
 
 			//     let response = fetch(
-			//         "https://hotspotsave.herokuapp.com/post/",
+			//         url,
 			//         {
 			//             method: "POST",
 			//             headers: {
@@ -80,7 +84,6 @@ function App() {
 			//             body: JSON.stringify(data)
 			//         }
 			//     ).then(() => console.log(response))
-
 			// }
 		})
 	}
@@ -110,9 +113,27 @@ function App() {
 		})
 	}
 
-	const getCarrier = () => {
+	const getCarrier = async () => {
 		NetInfo.fetch().then(data => {
 			setCarrier(data.details.carrier)
+			return data.details.carrier
+		}).then((carr) => {
+			if(carr != "Getting Carrier....") {
+				let url = "https://hotspotsave.herokuapp.com/" + carr
+				fetch(url).then(res => res.json()).then((result) => {
+					let points = []
+					result.map((point) => {
+						let obj = {
+							latitude: Number(point["latitude"]),
+							longitude: Number(point["longitude"]),
+							weight: point["down"] === undefined ? 0: Number(point["down"])
+						}
+
+						points.push(obj)
+					})
+					changeData(points)
+				})
+			}
 		})
 	}
 
@@ -133,13 +154,18 @@ function App() {
 		downSpeed: downSpeed,
 		ping: ping,
 		theme: theme,
-		changeTheme: changeTheme
+		changeTheme: changeTheme,
+		points: data
 	}
 
 
 	const Drawer = createDrawerNavigator()
 	return (
 		<InfoContext.Provider value={info}>
+			<StatusBar 
+				backgroundColor={theme === "dark" ? "#161616" : "white"}
+				barStyle={theme === "dark" ? "default" : "dark-content"}
+			/>
 			<NavigationContainer theme={theme === 'dark' ? DarkTheme : DefaultTheme}>
 				<Drawer.Navigator initialRouteName="Home" >
 					<Drawer.Screen name="Home" component={MainScreen} />
