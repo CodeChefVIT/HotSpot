@@ -48,6 +48,17 @@ function Info({navigation}) {
             fontSize: 20,
             paddingBottom: 20,
             color: themes[theme].text
+        },
+        row: {
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'center',
+            marginBottom: '8%'
+        },
+        comp: {
+            marginHorizontal: '9%',
+            justifyContent: 'center',
+            alignItems: 'center',
         }
     })
 
@@ -57,16 +68,25 @@ function Info({navigation}) {
                 <Navbar nav={navigation} />
                 <View>
                     <Text style={[styles.heading, styles.center, styles.bold, styles.blue]}>Your Information</Text>
-                    <Text style={styles.f20}><Text style={styles.bold, styles.blue}>Latitude:</Text>{latitude}</Text>
-                    <Text style={styles.f20}><Text style={styles.bold, styles.blue}>Longitude:</Text>{longitude}</Text>
-                    <Text style={styles.f20}><Text style={styles.bold, styles.blue}>Altitude:</Text>{altitude}</Text>
+                    <View style={styles.row}>
+                        <View style={styles.comp}> 
+                            <Text style={[styles.bold, styles.blue]}>Latitude:</Text>
+                            <Text style={styles.f20}>{latitude}</Text>
+                        </View>
+                        <View style={styles.comp}>
+                            <Text style={[styles.bold, styles.blue]}>Longitude:</Text>
+                            <Text style={styles.f20}>{longitude}</Text>
+                        </View>
+                    </View>
+                    <View style={styles.row}>
+                        <View style={styles.comp}>
+                            <Text style={[styles.bold, styles.blue]}>Altitude:</Text>
+                            <Text style={styles.f20}>{altitude}</Text>
+                        </View>
+                    </View>
                     <Text style={styles.f20}><Text style={styles.bold, styles.blue}>Carrier:</Text>{carrier}</Text>
                     <Text style={[styles.bold, styles.blue, styles.f24]}>Download Speed:</Text>
                     <Text style={[styles.f24, styles.center, styles.blue]}><MaterialIcons name="cloud-download" size={36} /> {downSpeed} {metric} </Text>
-                    <Text style={[styles.bold, styles.blue, styles.f24]}>Upload Speed:</Text>
-                    <Text style={[styles.f24, styles.center, styles.blue]}><MaterialIcons name="cloud-upload" size={36} /> {upSpeed}</Text>
-                    <Text style={[styles.bold, styles.blue, styles.f24]}>Ping:</Text>
-                    <Text style={[styles.f24, styles.center, styles.blue]}><MaterialIcons name="compare-arrows" size={36} /> {ping}</Text>
                 </View>
             </View>
         </ScrollView>
