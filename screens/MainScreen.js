@@ -49,7 +49,7 @@ function MainScreen({ navigation }) {
                     }} />
                 }
             </MapView>
-            <Text style={styles.text}>The regions with green have max Signal Strength and the red have the least</Text>
+            <Text style={styles.text}>The regions shown in green have good data strength. Zoom in for more accuracy.</Text>
         </View>
     );
 }

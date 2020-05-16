@@ -113,35 +113,31 @@ function App() {
 		})
 	}
 
-	const getCarrier = () => {
+	const getCarrier = async () => {
 		NetInfo.fetch().then(data => {
 			setCarrier(data.details.carrier)
+			return data.details.carrier
+		}).then((carr) => {
+			if(carr != "Getting Carrier....") {
+				let url = "https://hotspotsave.herokuapp.com/" + carr
+				fetch(url).then(res => res.json()).then((result) => {
+					let points = []
+					result.map((point) => {
+						let obj = {
+							latitude: Number(point["latitude"]),
+							longitude: Number(point["longitude"]),
+							weight: point["down"] === undefined ? 0: Number(point["down"])
+						}
+
+						points.push(obj)
+					})
+					changeData(points)
+				})
+			}
 		})
 	}
 
-	const getData = async () => {
-		if(carrier != "Getting Carrier....") {
-			let url = "https://hotspotsave.herokuapp.com/" + carrier
-			fetch(url).then(res => res.json()).then((result) => {
-				let points = []
-				result.map((point) => {
-					let obj = {
-						latitude: Number(point["latitude"]),
-						longitude: Number(point["longitude"]),
-						weight: point["down"] === undefined ? 0: Number(point["down"])
-					}
-
-					points.push(obj)
-				})
-				changeData(points)
-				console.log(data)
-			})
-			
-		}
-	}
-
 	useEffect(() => {
-		getData()
 		getTheme()
 		getCarrier()
 		getLocation()
