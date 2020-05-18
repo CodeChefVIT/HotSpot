@@ -31,9 +31,6 @@ function App() {
 		else {
 			setTheme()
 		}
-		setTimeout(() => {
-			getTheme()
-		}, 100)
 	}
 
 	const setTheme = async () => {
@@ -51,40 +48,42 @@ function App() {
 		}
 
 		let options = {
-			accuracy: Location.Accuracy.Balanced,
+			accuracy: Location.Accuracy.Highest,
 			timeInterval: 120000,
 			distanceInterval: 0,
 		}
 
-		Location.watchPositionAsync(options, (data) => {
+		await Location.watchPositionAsync(options, (data) => {
 			changeLatitude(data.coords.latitude)
 			changeLongitude(data.coords.longitude)
 			changeAltitude(data.coords.altitude)
-			// if(latitude !== "Waiting..." && longitude !== "Waiting..." && carrier !== "Getting Carrier...." ){
-			//     var data = {
-			//         "ping": 100,
-			//         "latitude": latitude,
-			//         "longitude": longitude,
-			//         "isp": carrier,
-			//         "down": downSpeed !== "Waiting..." ? 0 : downSpeed
-			// 	}
-				
-			// 	let url = "https://hotspotsave.herokuapp.com/post?ping=" + data["ping"] + 
-			// 			"&latitude=" + data["latitude"] + "&longitude=" + data["longitude"] + 
-			// 			"&isp=" + data["isp"] + "&down=" + data["down"]
 
-			//     let response = fetch(
-			//         url,
-			//         {
-			//             method: "POST",
-			//             headers: {
-			//                 "Accept": "application/json",
-			//                 "Content-Type": "application/json"
-			//             },
-			//             body: JSON.stringify(data)
-			//         }
-			//     ).then(() => console.log(response))
-			// }
+		}).then(() => {
+			if(latitude !== "Waiting..." && longitude !== "Waiting..." && carrier !== "Getting Carrier...." ){
+			    var data = {
+			        "ping": 100,
+			        "latitude": latitude,
+			        "longitude": longitude,
+			        "isp": carrier,
+			        "down": downSpeed === "Waiting..." ? 0 : downSpeed
+				}
+				
+				let url = "https://hotspotsave.herokuapp.com/post?ping=" + data["ping"] + 
+						"&latitude=" + data["latitude"] + "&longitude=" + data["longitude"] + 
+						"&isp=" + data["isp"] + "&down=" + data["down"]
+
+			    let response = fetch(
+			        url,
+			        {
+			            method: "POST",
+			            headers: {
+			                "Accept": "application/json",
+			                "Content-Type": "application/json"
+			            },
+			            body: JSON.stringify(data)
+			        }
+			    ).then(() => console.log(data))
+			}
 		})
 	}
 
@@ -94,7 +93,7 @@ function App() {
 		let size = 2059767
 		const start = new Date().getTime()
 
-		await fetch(uri, {
+		fetch(uri, {
 			headers: {
 				'Cache-Control': 'no-cache, no-store, must-revalidate',
 				'Pragma': 'no-cache',

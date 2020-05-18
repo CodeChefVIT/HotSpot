@@ -7,8 +7,7 @@ import * as themes from '../components/Themes'
 
 function MainScreen({ navigation }) {
     const {latitude, longitude, carrier, theme, points} = React.useContext(InfoContext)
-
-
+    
     const styles = StyleSheet.create({
         container: {
             backgroundColor: themes[theme].background,
