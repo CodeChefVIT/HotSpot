@@ -23,6 +23,8 @@ function App() {
 
 	const [data, changeData] = useState("Getting Data")
 
+	let updateTime = 120000 //in milliseconds
+
 	const getTheme = async () => {
 		let value = await AsyncStorage.getItem('theme');
 		if (value !== null) {
@@ -49,7 +51,7 @@ function App() {
 
 		let options = {
 			accuracy: Location.Accuracy.Highest,
-			timeInterval: 120000,
+			timeInterval: updateTime,
 			distanceInterval: 0,
 		}
 
@@ -108,7 +110,7 @@ function App() {
 			setDownSpeed(speed.toFixed(3))
 			setTimeout(() => {
 				getDownSpeed()
-			}, 120000)
+			}, updateTime)
 		})
 	}
 
@@ -117,23 +119,31 @@ function App() {
 			setCarrier(data.details.carrier)
 			return data.details.carrier
 		}).then((carr) => {
-			if(carr != "Getting Carrier....") {
-				let url = "https://hotspotsave.herokuapp.com/" + carr
-				fetch(url).then(res => res.json()).then((result) => {
-					let points = []
-					result.map((point) => {
-						let obj = {
-							latitude: Number(point["latitude"]),
-							longitude: Number(point["longitude"]),
-							weight: point["down"] === undefined ? 0: Number(point["down"])
-						}
-
-						points.push(obj)
-					})
-					changeData(points)
-				})
-			}
+			getPoints(carr)
 		})
+	}
+
+	const getPoints = async (carr) => {
+		if(carr != "Getting Carrier....") {
+			let url = "https://hotspotsave.herokuapp.com/" + carr
+			await fetch(url).then(res => res.json()).then((result) => {
+				let points = []
+				result.map((point) => {
+					let obj = {
+						latitude: Number(point["latitude"]),
+						longitude: Number(point["longitude"]),
+						weight: point["down"] === undefined ? 0: Number(point["down"])
+					}
+
+					points.push(obj)
+				})
+				changeData(points)
+			})
+
+			setTimeout(() => {
+				getPoints(carr)
+			}, updateTime)
+		}
 	}
 
 	useEffect(() => {
