@@ -10,10 +10,17 @@ function MainScreen({ navigation }) {
             carrier, theme, 
             points, changePoints} = React.useContext(InfoContext)
 
-    const [level, changeLevel] = React.useState(1)
+    const [displayAltitude, changeDisplayAltitude] = React.useState(altitude)
     
-    const increaseLevel = () => {
-        const newAlt = altitude + 50
+    const changeLevel = (type) => {
+        let newAlt = null
+        if(type === "increase") {
+            newAlt = displayAltitude + 50
+        } else if(type === "decrease") {
+            newAlt = displayAltitude - 50
+        }
+
+        changeDisplayAltitude(newAlt)
         const altDiff = 10
         let newPoints = []
 
