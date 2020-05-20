@@ -6,8 +6,28 @@ import {InfoContext} from '../context/InfoContext'
 import * as themes from '../components/Themes'
 
 function MainScreen({ navigation }) {
-    const {latitude, longitude, carrier, theme, points} = React.useContext(InfoContext)
+    const {latitude, longitude, altitude,
+            carrier, theme, 
+            points, changePoints} = React.useContext(InfoContext)
+
+    const [level, changeLevel] = React.useState(1)
     
+    const increaseLevel = () => {
+        const newAlt = altitude + 50
+        const altDiff = 10
+        let newPoints = []
+
+        points.map((point) => {
+            let diff = Math.abs(point.altitude - newAlt)
+            if(diff <= altDiff) {
+                newPoints.push(point)
+            }
+        })
+
+        changePoints(newPoints)
+    }
+
+
     const styles = StyleSheet.create({
         container: {
             backgroundColor: themes[theme].background,

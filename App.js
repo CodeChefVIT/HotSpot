@@ -164,7 +164,8 @@ function App() {
 		ping: ping,
 		theme: theme,
 		changeTheme: changeTheme,
-		points: data
+		points: data,
+		changePoints: changeData
 	}
 
 
