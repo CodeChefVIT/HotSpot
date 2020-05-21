@@ -4,8 +4,15 @@ import Navbar from "../components/Navbar";
 import MapView, { PROVIDER_GOOGLE, Heatmap } from 'react-native-maps';
 import {InfoContext} from '../context/InfoContext'
 import * as themes from '../components/Themes'
+import {AppLoading} from 'expo'
+import { useFonts, Rubik_700Bold } from '@expo-google-fonts/rubik'
+import { LobsterTwo_400Regular } from '@expo-google-fonts/lobster-two'
 
 function MainScreen({ navigation }) {
+    let [fontsLoaded] = useFonts({
+        Rubik_700Bold,
+        LobsterTwo_400Regular
+    });
     const {latitude, longitude, altitude,
             carrier, theme, 
             points, changeLevel} = React.useContext(InfoContext)
@@ -23,35 +30,43 @@ function MainScreen({ navigation }) {
         },
         text: {
             color: themes[theme].text,
+            fontSize: 18
         }
     });
-    return (
-        <View style={styles.container}>
-            <Navbar nav={navigation} />
-            <Text style={styles.text}>Showing map for Carrier: {carrier}</Text>
-            <MapView
-                provider={PROVIDER_GOOGLE}
-                initialRegion={{
-                    latitude: latitude,
-                    longitude: longitude,
-                    latitudeDelta: 0.0022,
-                    longitudeDelta: 0.0021,
-                }}
-                style={styles.map} >
-                {points === "Getting Data" ? null: 
-                    <Heatmap 
-                    points={points}
-                    radius={30}
-                    opacity={0.7}
-                    gradient={{
-                        colors: ['green'],
-                        startPoints: [1.0]
-                    }} />
-                }
-            </MapView>
-            <Text style={styles.text}>The regions shown in green have good data strength. Zoom in for more accuracy.</Text>
-        </View>
-    );
+
+    if (!fontsLoaded) {
+        return <AppLoading />;
+    } else {
+        return (
+            <View style={styles.container}>
+                <Navbar nav={navigation} />
+                <Text style={[styles.text,{fontFamily: 'Rubik_700Bold'}]}>Showing map for Carrier: {carrier}</Text>
+                <MapView
+                    provider={PROVIDER_GOOGLE}
+                    initialRegion={{
+                        latitude: latitude,
+                        longitude: longitude,
+                        latitudeDelta: 0.0022,
+                        longitudeDelta: 0.0021,
+                    }}
+                    style={styles.map}
+                >
+                    {points === "Getting Data" ? null: 
+                        <Heatmap 
+                        points={points}
+                        radius={30}
+                        opacity={0.7}
+                        gradient={{
+                            colors: ['green'],
+                            startPoints: [1.0]
+                        }} />
+                    }
+                </MapView>
+                <Text style={[styles.text,{fontFamily: 'LobsterTwo_400Regular'}]}>The regions shown in green have good data strength. Zoom in for more accuracy.</Text>
+            </View>
+        );
+    }
+    
 }
 
 export default MainScreen

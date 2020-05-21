@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from "react"
-import { Text, View, Button, StyleSheet, AsyncStorage } from "react-native"
+import React from "react"
+import { Text, View, Button, StyleSheet } from "react-native"
 import Modal from 'react-native-modal'
 import * as themes from '../components/Themes'
-import { TouchableOpacity } from "react-native-gesture-handler"
 import { InfoContext } from "../context/InfoContext"
+import {AppLoading} from 'expo'
+import { Rubik_700Bold } from '@expo-google-fonts/rubik'
+import { useFonts, LobsterTwo_400Regular } from '@expo-google-fonts/lobster-two'
 
 
 function AboutModal(props) {
@@ -13,43 +15,55 @@ function AboutModal(props) {
         props.changeVisibility(false)
     }
 
+    let [fontsLoaded] = useFonts({
+        LobsterTwo_400Regular,
+        Rubik_700Bold
+    });
+
     const styles = StyleSheet.create({
         container: {
             marginHorizontal: '10%',
             padding: '5%',
+            paddingBottom: 30,
+            paddingTop: 30,
             backgroundColor: themes[theme].background,
             justifyContent: 'center',
             alignItems: 'center',
             borderRadius: 4,
         },
         heading: {
-            fontWeight: 'bold',
-            fontSize: 25,
-            paddingTop: '5%',
-            paddingBottom: '10%',
+            fontSize: 30,
+            fontFamily: 'Rubik_700Bold',
+            marginBottom: '5%',
             color: themes[theme].text,
         },
         about: {
             paddingBottom: '5%',
-            fontSize: 15,
             color: themes[theme].text,
-        },
+            fontSize: 16,
+            fontFamily: 'LobsterTwo_400Regular',
+        }
     
     })
 
-    return (
-        <Modal isVisible={props.visibility} transparent={true}>
-            <View style={styles.container}>
-                <Text style={styles.heading}>CodeChef-VIT</Text>
-                <Text style={styles.about}>CodeChef-VIT is an international chapter,
-                    aiming to help students around the world, to develop a deep insight
-                    into technology.</Text>
-                <Text style={styles.about}>The VIT chapter selects the brightest minds in
-                    VIT Vellore, and gives them a platform to enhance and showcase their skills.</Text>
-                <Button title="Close" onPress={closeModal} />
-            </View>
-        </Modal>
-    )
+    if (!fontsLoaded) {
+        return <AppLoading />;
+    } else {
+        return (
+            <Modal isVisible={props.visibility} transparent={true}>
+                <View style={styles.container}>
+                    <Text style={styles.heading}>CodeChef-VIT</Text>
+                    <Text style={styles.about}>CodeChef-VIT is an international chapter,
+                        aiming to help students around the world, to develop a deep insight
+                        into technology.</Text>
+                    <Text style={styles.about}>The VIT chapter selects the brightest minds in
+                        VIT Vellore, and gives them a platform to enhance and showcase their skills.</Text>
+                    <Button title="Close" onPress={closeModal} />
+                </View>
+            </Modal>
+        )
+    }
+    
 }
 
 export default AboutModal

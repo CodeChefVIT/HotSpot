@@ -1,8 +1,10 @@
-import React, { useState, useEffect } from "react"
-import { View, StyleSheet, Text, TouchableOpacity, AsyncStorage } from "react-native"
+import React from "react"
+import { View, StyleSheet, Text, TouchableOpacity } from "react-native"
 import { SimpleLineIcons, Entypo } from '@expo/vector-icons'
 import * as themes from '../components/Themes'
 import { InfoContext } from "../context/InfoContext"
+import {AppLoading} from 'expo'
+import { useFonts, LobsterTwo_400Regular } from '@expo-google-fonts/lobster-two'
 
 function SettingsItem(props) {
     
@@ -26,6 +28,10 @@ function SettingsItem(props) {
         props.onPress(true)
     }
 
+    let [fontsLoaded] = useFonts({
+        LobsterTwo_400Regular
+    });
+
     const styles = StyleSheet.create({
         container: {
             padding: 10,
@@ -35,9 +41,10 @@ function SettingsItem(props) {
             borderBottomColor: '#ccc',
         },
         text: {
-            fontSize: 20,
+            fontSize: 28,
             paddingLeft: 10,
             color: themes[theme].text,
+            fontFamily: 'LobsterTwo_400Regular'
         },
         row: {
             flexDirection: 'row',
@@ -45,14 +52,20 @@ function SettingsItem(props) {
         },
     })
 
-    return (
-        <TouchableOpacity style={styles.container} onPress={handlePress}>
-            <View style={styles.row}>
-                {icon}
-                <Text style={styles.text}>{props.name}</Text>
-            </View>
-        </TouchableOpacity>
-    )
+    if (!fontsLoaded) {
+        return <AppLoading />;
+    } else {
+        return (
+            <TouchableOpacity style={styles.container} onPress={handlePress}>
+                <View style={styles.row}>
+                    {icon}
+                    <Text style={styles.text}>{props.name}</Text>
+                </View>
+            </TouchableOpacity>
+        )
+    }
+
+    
 }
 
 export default SettingsItem

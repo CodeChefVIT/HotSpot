@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react"
-import {View, StyleSheet, AsyncStorage} from "react-native"
+import React, { useState } from "react"
+import {View, StyleSheet} from "react-native"
 import Navbar from "../components/Navbar"
 import SettingsItem from "../components/SettingsItem"
 import DisplayModal from '../components/DisplayModal'
