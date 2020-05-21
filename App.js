@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { AsyncStorage, StatusBar } from 'react-native';
+import { AsyncStorage, StatusBar, Text } from 'react-native';
 import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/native'
 import { createDrawerNavigator } from '@react-navigation/drawer'
 import NetInfo from '@react-native-community/netinfo'
@@ -16,11 +16,8 @@ function App() {
 	const [altitude, changeAltitude] = useState("Waiting...")
 	const [locationPermission, changeLocPerm] = useState("Waiting...")
 	const [carrier, setCarrier] = useState("Getting Carrier....")
-	const [upSpeed] = useState("Waiting...")
 	const [downSpeed, setDownSpeed] = useState("Waiting...")
-	const [ping] = useState("Waiting....")
 	const [theme, changeTheme] = useState("light")
-
 	const [data, changeData] = useState("Getting Data")
 	const [heatmapPoints, changeHeatmapPoints] = useState(data)
 	const [displayAltitude, changeDisplayAltitude] = useState(altitude)
@@ -134,7 +131,8 @@ function App() {
 					let obj = {
 						latitude: Number(point["latitude"]),
 						longitude: Number(point["longitude"]),
-						weight: point["down"] === undefined ? 0: Number(point["down"])
+						weight: point["down"] === undefined ? 0: 
+							Number(point["down"]) >= 1000? 1000: Number(point["down"])
 					}
 
 					points.push(obj)
@@ -173,7 +171,13 @@ function App() {
         points.map((point) => {
             let diff = Math.abs(point.altitude - displayAltitude)
             if(diff <= altDiff) {
-                newPoints.push(point)
+				let obj = {
+					latitude: Number(point.latitude),
+					longitude: Number(point.longitude),
+					weight: point["down"] === undefined ? 0: 
+					Number(point["down"]) >= 1000? 1000: Number(point["down"])
+				}
+                newPoints.push(obj)
             }
         })
 
@@ -186,12 +190,10 @@ function App() {
 		altitude: altitude,
 		locPerm: locationPermission,
 		carrier: carrier,
-		upSpeed: upSpeed,
 		downSpeed: downSpeed,
-		ping: ping,
 		theme: theme,
 		changeTheme: changeTheme,
-		points: heatmapPoints,
+		points: data,
 		changeLevel: changeLevel
 	}
 
