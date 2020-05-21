@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, AsyncStorage, StatusBar, Text } from 'react-native';
+import { AsyncStorage, StatusBar } from 'react-native';
 import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/native'
 import { createDrawerNavigator } from '@react-navigation/drawer'
 import NetInfo from '@react-native-community/netinfo'
@@ -16,9 +16,9 @@ function App() {
 	const [altitude, changeAltitude] = useState("Waiting...")
 	const [locationPermission, changeLocPerm] = useState("Waiting...")
 	const [carrier, setCarrier] = useState("Getting Carrier....")
-	const [upSpeed, setUpSpeed] = useState("Waiting...")
+	const [upSpeed] = useState("Waiting...")
 	const [downSpeed, setDownSpeed] = useState("Waiting...")
-	const [ping, setPing] = useState("Waiting....")
+	const [ping] = useState("Waiting....")
 	const [theme, changeTheme] = useState("light")
 
 	const [data, changeData] = useState("Getting Data")

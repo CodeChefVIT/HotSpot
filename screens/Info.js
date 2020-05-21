@@ -5,10 +5,13 @@ import { InfoContext } from '../context/InfoContext'
 import { MaterialIcons } from '@expo/vector-icons'
 import * as themes from '../components/Themes'
 import { setLightEstimationEnabled } from "expo/build/AR"
+import {AppLoading} from 'expo'
+import { Rubik_700Bold } from '@expo-google-fonts/rubik'
+import { useFonts, LobsterTwo_400Regular, LobsterTwo_700Bold } from '@expo-google-fonts/lobster-two'
 
 
 function Info({navigation}) {
-    const {latitude, longitude, altitude, carrier, downSpeed, upSpeed, ping} = React.useContext(InfoContext)
+    const {latitude, longitude, altitude, carrier, downSpeed, upSpeed, ping, theme} = React.useContext(InfoContext)
 
     let metric = null
 
@@ -16,7 +19,11 @@ function Info({navigation}) {
         metric = "KB/s"
     }
 
-    const {theme} = React.useContext(InfoContext)
+    let [fontsLoaded] = useFonts({
+        LobsterTwo_700Bold,
+        LobsterTwo_400Regular,
+        Rubik_700Bold
+    });
 
     const styles = StyleSheet.create({
         container: {
@@ -38,17 +45,21 @@ function Info({navigation}) {
             marginTop: '10%'
         },
         heading: {
-            fontSize: 30,
+            fontSize: 36,
             paddingBottom: 20,
             color: themes[theme].text
         },
-        f20: {
-            fontSize: 20,
+        f18: {
+            fontSize: 18,
+            paddingBottom: 2,
+        },
+        f22: {
+            fontSize: 22,
             paddingBottom: 10,
             color: themes[theme].text
         },
-        f24: {
-            fontSize: 20,
+        f26: {
+            fontSize: 26,
             color: themes[theme].text
         },
         row: {
@@ -63,51 +74,57 @@ function Info({navigation}) {
             alignItems: 'center',
         },
         head: {
-            fontSize: 25,
+            fontSize: 28,
         },
         marginBot: {
             marginBottom: '10%',
         }
     })
 
-    return (
-        <ScrollView style={styles.container}>
-            <View>
-                <Navbar nav={navigation} />
+
+    if (!fontsLoaded) {
+        return <AppLoading />;
+    } else {
+        return (
+            <ScrollView style={styles.container}>
                 <View>
-                    <Text style={[styles.heading, styles.center, styles.bold, styles.blue, styles.marginBot]}>Your Information</Text>
-                    <View style={styles.row}>
-                        <View style={styles.comp}> 
-                            <Text style={[styles.bold, styles.blue]}>Latitude:</Text>
-                            <Text style={styles.f20}>{latitude}</Text>
+                    <Navbar nav={navigation} />
+                    <View style={{paddingTop: 25}}>
+                        <Text style={[styles.heading, styles.center, styles.blue, styles.marginBot, {fontFamily: 'LobsterTwo_700Bold'}]}>Your Information</Text>
+                        <View style={styles.row}>
+                            <View style={styles.comp}> 
+                                <Text style={[{fontFamily: 'Rubik_700Bold'}, styles.blue, styles.f18]}>Latitude:</Text>
+                                <Text style={[styles.f22, {fontFamily: 'LobsterTwo_400Regular'}]}>{latitude}</Text>
+                            </View>
+                            <View style={styles.comp}>
+                                <Text style={[{fontFamily: 'Rubik_700Bold'}, styles.blue, styles.f18]}>Longitude:</Text>
+                                <Text style={[styles.f22, {fontFamily: 'LobsterTwo_400Regular'}]}>{longitude}</Text>
+                            </View>
                         </View>
-                        <View style={styles.comp}>
-                            <Text style={[styles.bold, styles.blue]}>Longitude:</Text>
-                            <Text style={styles.f20}>{longitude}</Text>
+                        <View style={[styles.row, styles.marginBot]}>
+                            <View style={styles.comp}>
+                                <Text style={[{fontFamily: 'Rubik_700Bold'}, styles.blue, styles.f18]}>Altitude:</Text>
+                                <Text style={[styles.f22, {fontFamily: 'LobsterTwo_400Regular'}]}>{altitude}</Text>
+                            </View>
                         </View>
-                    </View>
-                    <View style={[styles.row, styles.marginBot]}>
-                        <View style={styles.comp}>
-                            <Text style={[styles.bold, styles.blue]}>Altitude:</Text>
-                            <Text style={styles.f20}>{altitude}</Text>
+                        <View style={styles.row}>
+                            <View style={styles.comp}>
+                                <Text style={[{fontFamily: 'Rubik_700Bold'}, styles.blue, styles.head]}>Carrier:</Text>
+                                <Text style={[styles.f26, {fontFamily: 'LobsterTwo_700Bold'}]}>{carrier}</Text>
+                            </View>
                         </View>
-                    </View>
-                    <View style={styles.row}>
-                        <View style={styles.comp}>
-                            <Text style={[styles.bold, styles.blue, styles.head]}>Carrier:</Text>
-                            <Text style={styles.f20}>{carrier}</Text>
-                        </View>
-                    </View>
-                    <View style={styles.row}>
-                        <View style={[styles.comp]}>
-                            <Text style={[styles.bold, styles.blue, styles.f24]}>Download Speed:</Text>
-                            <Text style={[styles.f24, styles.center, styles.blue]}><MaterialIcons name="cloud-download" size={36} /> {downSpeed} {metric} </Text>
+                        <View style={styles.row}>
+                            <View style={[styles.comp]}>
+                                <Text style={[{fontFamily: 'LobsterTwo_700Bold'}, styles.blue, styles.f26]}>Download Speed:</Text>
+                                <Text style={[styles.f26, styles.center, styles.blue, {fontFamily: 'LobsterTwo_700Bold'}]}><MaterialIcons name="cloud-download" size={26} /> {downSpeed} {metric} </Text>
+                            </View>
                         </View>
                     </View>
                 </View>
-            </View>
-        </ScrollView>
-    )
+            </ScrollView>
+        )
+    }
+    
 }
 
 export default Info
