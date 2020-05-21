@@ -22,6 +22,10 @@ function App() {
 	const [theme, changeTheme] = useState("light")
 
 	const [data, changeData] = useState("Getting Data")
+	const [heatmapPoints, changeHeatmapPoints] = useState(data)
+	const [displayAltitude, changeDisplayAltitude] = useState(altitude)
+
+	let updateTime = 120000 //in milliseconds
 
 	const getTheme = async () => {
 		let value = await AsyncStorage.getItem('theme');
@@ -31,9 +35,6 @@ function App() {
 		else {
 			setTheme()
 		}
-		setTimeout(() => {
-			getTheme()
-		}, 100)
 	}
 
 	const setTheme = async () => {
@@ -51,40 +52,42 @@ function App() {
 		}
 
 		let options = {
-			accuracy: Location.Accuracy.Balanced,
-			timeInterval: 120000,
+			accuracy: Location.Accuracy.Highest,
+			timeInterval: updateTime,
 			distanceInterval: 0,
 		}
 
-		Location.watchPositionAsync(options, (data) => {
+		await Location.watchPositionAsync(options, (data) => {
 			changeLatitude(data.coords.latitude)
 			changeLongitude(data.coords.longitude)
 			changeAltitude(data.coords.altitude)
-			// if(latitude !== "Waiting..." && longitude !== "Waiting..." && carrier !== "Getting Carrier...." ){
-			//     var data = {
-			//         "ping": 100,
-			//         "latitude": latitude,
-			//         "longitude": longitude,
-			//         "isp": carrier,
-			//         "down": downSpeed !== "Waiting..." ? 0 : downSpeed
-			// 	}
-				
-			// 	let url = "https://hotspotsave.herokuapp.com/post?ping=" + data["ping"] + 
-			// 			"&latitude=" + data["latitude"] + "&longitude=" + data["longitude"] + 
-			// 			"&isp=" + data["isp"] + "&down=" + data["down"]
 
-			//     let response = fetch(
-			//         url,
-			//         {
-			//             method: "POST",
-			//             headers: {
-			//                 "Accept": "application/json",
-			//                 "Content-Type": "application/json"
-			//             },
-			//             body: JSON.stringify(data)
-			//         }
-			//     ).then(() => console.log(response))
-			// }
+		}).then(() => {
+			if(latitude !== "Waiting..." && longitude !== "Waiting..." && carrier !== "Getting Carrier...." ){
+			    var data = {
+			        "ping": 100,
+			        "latitude": latitude,
+			        "longitude": longitude,
+			        "isp": carrier,
+			        "down": downSpeed === "Waiting..." ? 0 : downSpeed
+				}
+				
+				let url = "https://hotspotsave.herokuapp.com/post?ping=" + data["ping"] + 
+						"&latitude=" + data["latitude"] + "&longitude=" + data["longitude"] + 
+						"&isp=" + data["isp"] + "&down=" + data["down"]
+
+			    let response = fetch(
+			        url,
+			        {
+			            method: "POST",
+			            headers: {
+			                "Accept": "application/json",
+			                "Content-Type": "application/json"
+			            },
+			            body: JSON.stringify(data)
+			        }
+			    ).then(() => console.log(data))
+			}
 		})
 	}
 
@@ -94,7 +97,7 @@ function App() {
 		let size = 2059767
 		const start = new Date().getTime()
 
-		await fetch(uri, {
+		fetch(uri, {
 			headers: {
 				'Cache-Control': 'no-cache, no-store, must-revalidate',
 				'Pragma': 'no-cache',
@@ -109,7 +112,7 @@ function App() {
 			setDownSpeed(speed.toFixed(3))
 			setTimeout(() => {
 				getDownSpeed()
-			}, 120000)
+			}, updateTime)
 		})
 	}
 
@@ -118,23 +121,31 @@ function App() {
 			setCarrier(data.details.carrier)
 			return data.details.carrier
 		}).then((carr) => {
-			if(carr != "Getting Carrier....") {
-				let url = "https://hotspotsave.herokuapp.com/" + carr
-				fetch(url).then(res => res.json()).then((result) => {
-					let points = []
-					result.map((point) => {
-						let obj = {
-							latitude: Number(point["latitude"]),
-							longitude: Number(point["longitude"]),
-							weight: point["down"] === undefined ? 0: Number(point["down"])
-						}
-
-						points.push(obj)
-					})
-					changeData(points)
-				})
-			}
+			getPoints(carr)
 		})
+	}
+
+	const getPoints = async (carr) => {
+		if(carr != "Getting Carrier....") {
+			let url = "https://hotspotsave.herokuapp.com/" + carr
+			await fetch(url).then(res => res.json()).then((result) => {
+				let points = []
+				result.map((point) => {
+					let obj = {
+						latitude: Number(point["latitude"]),
+						longitude: Number(point["longitude"]),
+						weight: point["down"] === undefined ? 0: Number(point["down"])
+					}
+
+					points.push(obj)
+				})
+				changeData(points)
+			})
+
+			setTimeout(() => {
+				getPoints(carr)
+			}, updateTime)
+		}
 	}
 
 	useEffect(() => {
@@ -143,6 +154,31 @@ function App() {
 		getLocation()
 		getDownSpeed()
 	}, [])
+
+	const changeLevel = (type) => {
+        let newAlt = null
+        if(type === "increase") {
+            newAlt = displayAltitude + 50
+        } else if(type === "decrease") {
+            newAlt = displayAltitude - 50
+        }
+        changeDisplayAltitude(newAlt)
+        filterPoints()
+	}
+	
+	const filterPoints = () => {
+        const altDiff = 15
+        let newPoints = []
+
+        points.map((point) => {
+            let diff = Math.abs(point.altitude - displayAltitude)
+            if(diff <= altDiff) {
+                newPoints.push(point)
+            }
+        })
+
+        changeHeatmapPoints(newPoints)
+    }
 
 	let info = {
 		latitude: latitude,
@@ -155,9 +191,9 @@ function App() {
 		ping: ping,
 		theme: theme,
 		changeTheme: changeTheme,
-		points: data
+		points: heatmapPoints,
+		changeLevel: changeLevel
 	}
-
 
 	const Drawer = createDrawerNavigator()
 	return (

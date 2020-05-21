@@ -9,11 +9,14 @@ import { useFonts, Rubik_700Bold } from '@expo-google-fonts/rubik'
 import { LobsterTwo_400Regular } from '@expo-google-fonts/lobster-two'
 
 function MainScreen({ navigation }) {
-    const {latitude, longitude, carrier, theme, points} = React.useContext(InfoContext)
     let [fontsLoaded] = useFonts({
         Rubik_700Bold,
         LobsterTwo_400Regular
     });
+    const {latitude, longitude, altitude,
+            carrier, theme, 
+            points, changeLevel} = React.useContext(InfoContext)
+
     const styles = StyleSheet.create({
         container: {
             backgroundColor: themes[theme].background,
@@ -48,7 +51,7 @@ function MainScreen({ navigation }) {
                     }}
                     style={styles.map}
                 >
-                    {/* {points === "Getting Data" ? null: 
+                    {points === "Getting Data" ? null: 
                         <Heatmap 
                         points={points}
                         radius={30}
@@ -57,7 +60,7 @@ function MainScreen({ navigation }) {
                             colors: ['green'],
                             startPoints: [1.0]
                         }} />
-                    } */}
+                    }
                 </MapView>
                 <Text style={[styles.text,{fontFamily: 'LobsterTwo_400Regular'}]}>The regions shown in green have good data strength. Zoom in for more accuracy.</Text>
             </View>
