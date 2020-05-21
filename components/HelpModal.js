@@ -5,7 +5,7 @@ import * as themes from '../components/Themes'
 import { InfoContext } from "../context/InfoContext"
 import {AppLoading} from 'expo'
 import { Rubik_700Bold } from '@expo-google-fonts/rubik'
-import { useFonts, LobsterTwo_400Regular } from '@expo-google-fonts/lobster-two'
+import { useFonts, BalsamiqSans_400Regular } from '@expo-google-fonts/balsamiq-sans'
 
 function HelpModal(props) {
 
@@ -16,7 +16,7 @@ function HelpModal(props) {
     }
 
     let [fontsLoaded] = useFonts({
-        LobsterTwo_400Regular,
+        BalsamiqSans_400Regular,
         Rubik_700Bold
     });
 
@@ -34,7 +34,7 @@ function HelpModal(props) {
         text: {
             color: themes[theme].text,
             fontSize: 16,
-            fontFamily: 'LobsterTwo_400Regular',
+            fontFamily: 'BalsamiqSans_400Regular',
             
         },
         heading: {
@@ -47,7 +47,7 @@ function HelpModal(props) {
             paddingBottom: '5%',
             color: themes[theme].text,
             fontSize: 16,
-            fontFamily: 'LobsterTwo_400Regular',
+            fontFamily: 'BalsamiqSans_400Regular',
         }
     })
 

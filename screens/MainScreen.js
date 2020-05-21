@@ -6,12 +6,12 @@ import {InfoContext} from '../context/InfoContext'
 import * as themes from '../components/Themes'
 import {AppLoading} from 'expo'
 import { useFonts, Rubik_700Bold } from '@expo-google-fonts/rubik'
-import { LobsterTwo_400Regular } from '@expo-google-fonts/lobster-two'
+import { BalsamiqSans_400Regular } from '@expo-google-fonts/balsamiq-sans'
 
 function MainScreen({ navigation }) {
     let [fontsLoaded] = useFonts({
         Rubik_700Bold,
-        LobsterTwo_400Regular
+        BalsamiqSans_400Regular
     });
     const {latitude, longitude, altitude,
             carrier, theme, 
@@ -62,7 +62,7 @@ function MainScreen({ navigation }) {
                         }} />
                     }
                 </MapView>
-                <Text style={[styles.text,{fontFamily: 'LobsterTwo_400Regular'}]}>The regions shown in green have good data strength. Zoom in for more accuracy.</Text>
+                <Text style={[styles.text,{fontFamily: 'BalsamiqSans_400Regular'}]}>The regions shown in green have good data strength. Zoom in for more accuracy.</Text>
             </View>
         );
     }

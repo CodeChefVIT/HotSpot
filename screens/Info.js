@@ -7,7 +7,7 @@ import * as themes from '../components/Themes'
 import { setLightEstimationEnabled } from "expo/build/AR"
 import {AppLoading} from 'expo'
 import { Rubik_700Bold } from '@expo-google-fonts/rubik'
-import { useFonts, LobsterTwo_400Regular, LobsterTwo_700Bold } from '@expo-google-fonts/lobster-two'
+import { useFonts, BalsamiqSans_400Regular, BalsamiqSans_700Bold } from '@expo-google-fonts/balsamiq-sans'
 
 
 function Info({navigation}) {
@@ -20,8 +20,8 @@ function Info({navigation}) {
     }
 
     let [fontsLoaded] = useFonts({
-        LobsterTwo_700Bold,
-        LobsterTwo_400Regular,
+        BalsamiqSans_700Bold,
+        BalsamiqSans_400Regular,
         Rubik_700Bold
     });
 
@@ -90,33 +90,33 @@ function Info({navigation}) {
                 <View>
                     <Navbar nav={navigation} />
                     <View style={{paddingTop: 25}}>
-                        <Text style={[styles.heading, styles.center, styles.blue, styles.marginBot, {fontFamily: 'LobsterTwo_700Bold'}]}>Your Information</Text>
+                        <Text style={[styles.heading, styles.center, styles.blue, styles.marginBot, {fontFamily: 'BalsamiqSans_700Bold'}]}>Your Information</Text>
                         <View style={styles.row}>
                             <View style={styles.comp}> 
                                 <Text style={[{fontFamily: 'Rubik_700Bold'}, styles.blue, styles.f18]}>Latitude:</Text>
-                                <Text style={[styles.f22, {fontFamily: 'LobsterTwo_400Regular'}]}>{latitude}</Text>
+                                <Text style={[styles.f22, {fontFamily: 'BalsamiqSans_400Regular'}]}>{latitude}</Text>
                             </View>
                             <View style={styles.comp}>
                                 <Text style={[{fontFamily: 'Rubik_700Bold'}, styles.blue, styles.f18]}>Longitude:</Text>
-                                <Text style={[styles.f22, {fontFamily: 'LobsterTwo_400Regular'}]}>{longitude}</Text>
+                                <Text style={[styles.f22, {fontFamily: 'BalsamiqSans_400Regular'}]}>{longitude}</Text>
                             </View>
                         </View>
                         <View style={[styles.row, styles.marginBot]}>
                             <View style={styles.comp}>
                                 <Text style={[{fontFamily: 'Rubik_700Bold'}, styles.blue, styles.f18]}>Altitude:</Text>
-                                <Text style={[styles.f22, {fontFamily: 'LobsterTwo_400Regular'}]}>{altitude}</Text>
+                                <Text style={[styles.f22, {fontFamily: 'BalsamiqSans_400Regular'}]}>{altitude}</Text>
                             </View>
                         </View>
                         <View style={styles.row}>
                             <View style={styles.comp}>
                                 <Text style={[{fontFamily: 'Rubik_700Bold'}, styles.blue, styles.head]}>Carrier:</Text>
-                                <Text style={[styles.f26, {fontFamily: 'LobsterTwo_700Bold'}]}>{carrier}</Text>
+                                <Text style={[styles.f26, {fontFamily: 'BalsamiqSans_700Bold'}]}>{carrier}</Text>
                             </View>
                         </View>
                         <View style={styles.row}>
                             <View style={[styles.comp]}>
-                                <Text style={[{fontFamily: 'LobsterTwo_700Bold'}, styles.blue, styles.f26]}>Download Speed:</Text>
-                                <Text style={[styles.f26, styles.center, styles.blue, {fontFamily: 'LobsterTwo_700Bold'}]}><MaterialIcons name="cloud-download" size={26} /> {downSpeed} {metric} </Text>
+                                <Text style={[{fontFamily: 'BalsamiqSans_700Bold'}, styles.blue, styles.f26]}>Download Speed:</Text>
+                                <Text style={[styles.f26, styles.center, styles.blue, {fontFamily: 'BalsamiqSans_700Bold'}]}><MaterialIcons name="cloud-download" size={26} /> {downSpeed} {metric} </Text>
                             </View>
                         </View>
                     </View>

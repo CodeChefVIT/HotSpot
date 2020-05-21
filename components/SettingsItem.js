@@ -4,7 +4,7 @@ import { SimpleLineIcons, Entypo } from '@expo/vector-icons'
 import * as themes from '../components/Themes'
 import { InfoContext } from "../context/InfoContext"
 import {AppLoading} from 'expo'
-import { useFonts, LobsterTwo_400Regular } from '@expo-google-fonts/lobster-two'
+import { useFonts, BalsamiqSans_400Regular } from '@expo-google-fonts/balsamiq-sans'
 
 function SettingsItem(props) {
     
@@ -29,7 +29,7 @@ function SettingsItem(props) {
     }
 
     let [fontsLoaded] = useFonts({
-        LobsterTwo_400Regular
+        BalsamiqSans_400Regular
     });
 
     const styles = StyleSheet.create({
@@ -44,7 +44,7 @@ function SettingsItem(props) {
             fontSize: 28,
             paddingLeft: 10,
             color: themes[theme].text,
-            fontFamily: 'LobsterTwo_400Regular'
+            fontFamily: 'BalsamiqSans_400Regular'
         },
         row: {
             flexDirection: 'row',

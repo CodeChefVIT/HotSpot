@@ -8,7 +8,7 @@
     "eject": "expo eject"
   },
   "dependencies": {
-    "@expo-google-fonts/lobster-two": "^0.1.0",
+    "@expo-google-fonts/balsamiq-sans": "^0.1.0",
     "@expo-google-fonts/rubik": "^0.1.0",
     "@react-native-community/masked-view": "0.1.6",
     "@react-native-community/netinfo": "5.5.1",

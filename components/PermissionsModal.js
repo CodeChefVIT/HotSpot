@@ -5,7 +5,7 @@ import {InfoContext} from '../context/InfoContext'
 import * as themes from '../components/Themes'
 import {AppLoading} from 'expo'
 import { Rubik_700Bold } from '@expo-google-fonts/rubik'
-import { useFonts, LobsterTwo_400Regular, LobsterTwo_700Bold } from '@expo-google-fonts/lobster-two'
+import { useFonts, BalsamiqSans_400Regular, BalsamiqSans_700Bold } from '@expo-google-fonts/balsamiq-sans'
 
 function PermissionsModal(props) {
     const [text, changeText] = useState("Wait!")
@@ -31,8 +31,8 @@ function PermissionsModal(props) {
     }
 
     let [fontsLoaded] = useFonts({
-        LobsterTwo_700Bold,
-        LobsterTwo_400Regular,
+        BalsamiqSans_700Bold,
+        BalsamiqSans_400Regular,
         Rubik_700Bold
     });
 
@@ -52,7 +52,7 @@ function PermissionsModal(props) {
             textAlign: 'center',
             marginBottom: '5%',
             color: themes[theme].text,
-            fontFamily: 'LobsterTwo_700Bold'
+            fontFamily: 'BalsamiqSans_700Bold'
         }
     })
 
