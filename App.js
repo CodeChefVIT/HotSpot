@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { AsyncStorage, StatusBar } from 'react-native';
+import { AsyncStorage, StatusBar, Text } from 'react-native';
 import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/native'
 import { createDrawerNavigator } from '@react-navigation/drawer'
 import NetInfo from '@react-native-community/netinfo'
@@ -131,7 +131,8 @@ function App() {
 					let obj = {
 						latitude: Number(point["latitude"]),
 						longitude: Number(point["longitude"]),
-						weight: point["down"] === undefined ? 0: Number(point["down"])
+						weight: point["down"] === undefined ? 0: 
+							Number(point["down"]) >= 1000? 1000: Number(point["down"])
 					}
 
 					points.push(obj)
@@ -173,7 +174,8 @@ function App() {
 				let obj = {
 					latitude: Number(point.latitude),
 					longitude: Number(point.longitude),
-					weight: point["down"] === undefined ? 0: Number(point["down"])
+					weight: point["down"] === undefined ? 0: 
+					Number(point["down"]) >= 1000? 1000: Number(point["down"])
 				}
                 newPoints.push(obj)
             }
@@ -191,7 +193,7 @@ function App() {
 		downSpeed: downSpeed,
 		theme: theme,
 		changeTheme: changeTheme,
-		points: heatmapPoints,
+		points: data,
 		changeLevel: changeLevel
 	}
 

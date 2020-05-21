@@ -11,12 +11,12 @@ import { LobsterTwo_400Regular } from '@expo-google-fonts/lobster-two'
 function MainScreen({ navigation }) {
     let [fontsLoaded] = useFonts({
         Rubik_700Bold,
-        LobsterTwo_400Regular
+        LobsterTwo_400Regular,
     });
     const {latitude, longitude, altitude,
             carrier, theme, 
             points, changeLevel} = React.useContext(InfoContext)
-
+        
     const styles = StyleSheet.create({
         container: {
             backgroundColor: themes[theme].background,
@@ -54,11 +54,11 @@ function MainScreen({ navigation }) {
                     {points === "Getting Data" ? null: 
                         <Heatmap 
                         points={points}
-                        radius={30}
-                        opacity={0.7}
+                        radius={20}
+                        opacity={0.5}
                         gradient={{
                             colors: ['green'],
-                            startPoints: [1.0]
+                            startPoints: [0.01]
                         }} />
                     }
                 </MapView>
