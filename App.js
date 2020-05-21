@@ -16,9 +16,7 @@ function App() {
 	const [altitude, changeAltitude] = useState("Waiting...")
 	const [locationPermission, changeLocPerm] = useState("Waiting...")
 	const [carrier, setCarrier] = useState("Getting Carrier....")
-	const [upSpeed, setUpSpeed] = useState("Waiting...")
 	const [downSpeed, setDownSpeed] = useState("Waiting...")
-	const [ping, setPing] = useState("Waiting....")
 	const [theme, changeTheme] = useState("light")
 
 	const [data, changeData] = useState("Getting Data")
@@ -173,7 +171,12 @@ function App() {
         points.map((point) => {
             let diff = Math.abs(point.altitude - displayAltitude)
             if(diff <= altDiff) {
-                newPoints.push(point)
+				let obj = {
+					latitude: Number(point.latitude),
+					longitude: Number(point.longitude),
+					weight: point["down"] === undefined ? 0: Number(point["down"])
+				}
+                newPoints.push(obj)
             }
         })
 
@@ -186,9 +189,7 @@ function App() {
 		altitude: altitude,
 		locPerm: locationPermission,
 		carrier: carrier,
-		upSpeed: upSpeed,
 		downSpeed: downSpeed,
-		ping: ping,
 		theme: theme,
 		changeTheme: changeTheme,
 		points: heatmapPoints,
