@@ -22,6 +22,8 @@ function App() {
 	const [theme, changeTheme] = useState("light")
 
 	const [data, changeData] = useState("Getting Data")
+	const [heatmapPoints, changeHeatmapPoints] = useState(data)
+	const [displayAltitude, changeDisplayAltitude] = useState(altitude)
 
 	let updateTime = 120000 //in milliseconds
 
@@ -153,6 +155,31 @@ function App() {
 		getDownSpeed()
 	}, [])
 
+	const changeLevel = (type) => {
+        let newAlt = null
+        if(type === "increase") {
+            newAlt = displayAltitude + 50
+        } else if(type === "decrease") {
+            newAlt = displayAltitude - 50
+        }
+        changeDisplayAltitude(newAlt)
+        filterPoints()
+	}
+	
+	const filterPoints = () => {
+        const altDiff = 15
+        let newPoints = []
+
+        points.map((point) => {
+            let diff = Math.abs(point.altitude - displayAltitude)
+            if(diff <= altDiff) {
+                newPoints.push(point)
+            }
+        })
+
+        changeHeatmapPoints(newPoints)
+    }
+
 	let info = {
 		latitude: latitude,
 		longitude: longitude,
@@ -164,10 +191,9 @@ function App() {
 		ping: ping,
 		theme: theme,
 		changeTheme: changeTheme,
-		points: data,
-		changePoints: changeData
+		points: heatmapPoints,
+		changeLevel: changeLevel
 	}
-
 
 	const Drawer = createDrawerNavigator()
 	return (

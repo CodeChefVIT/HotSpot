@@ -8,33 +8,7 @@ import * as themes from '../components/Themes'
 function MainScreen({ navigation }) {
     const {latitude, longitude, altitude,
             carrier, theme, 
-            points, changePoints} = React.useContext(InfoContext)
-
-    const [displayAltitude, changeDisplayAltitude] = React.useState(altitude)
-    const [displayPoints, changeDisplayPoints] = React.useState(points)
-
-    const changeLevel = (type) => {
-        let newAlt = null
-        if(type === "increase") {
-            newAlt = displayAltitude + 50
-        } else if(type === "decrease") {
-            newAlt = displayAltitude - 50
-        }
-        changeDisplayAltitude(newAlt)
-
-        const altDiff = 10
-        let newPoints = []
-
-        points.map((point) => {
-            let diff = Math.abs(point.altitude - newAlt)
-            if(diff <= altDiff) {
-                newPoints.push(point)
-            }
-        })
-
-        changeDisplayPoints(newPoints)
-    }
-
+            points, changeLevel} = React.useContext(InfoContext)
 
     const styles = StyleSheet.create({
         container: {
@@ -63,8 +37,7 @@ function MainScreen({ navigation }) {
                     latitudeDelta: 0.0022,
                     longitudeDelta: 0.0021,
                 }}
-                style={styles.map}
-            >
+                style={styles.map} >
                 {points === "Getting Data" ? null: 
                     <Heatmap 
                     points={points}
