@@ -26,7 +26,7 @@ Find best areas to go to with respect to mobile network strength.
 ## Contributors
 - <a href="https://github.com/gvinayakgupta">Vinayak Gupta</a>
 - <a href="https://github.com/sarthakbh321">Sarthak Bharadwaj</a>
-- <a href="https://github.com/sheewoom">Shivam Mehta</a>
+- <a href="https://github.com/N0v0cain3">Shivam Mehta</a>
 
 ## License
 
