@@ -17,11 +17,12 @@ Find best areas to go to with respect to mobile network strength.
 
 
 ## Screenshots
-<img src="" alt="Project Screenshots">
-<img src="" alt="Project Screenshots">
-<img src="" alt="Project Screenshots">
-<img src="" alt="Project Screenshots">
-
+<img src="https://github.com/Sarthakbh321/HotSpot/blob/master/builds/pic%20(1).png" alt="Project Screenshots" width="300px">
+<img src="https://github.com/Sarthakbh321/HotSpot/blob/master/builds/pic%20(2).png" alt="Project Screenshots" width="300px">
+<img src="https://github.com/Sarthakbh321/HotSpot/blob/master/builds/pic%20(3).png" alt="Project Screenshots" width="300px">
+<img src="https://github.com/Sarthakbh321/HotSpot/blob/master/builds/pic%20(4).png" alt="Project Screenshots" width="300px">
+<img src="https://github.com/Sarthakbh321/HotSpot/blob/master/builds/pic%20(5).png" alt="Project Screenshots" width="300px">
+<img src="https://github.com/Sarthakbh321/HotSpot/blob/master/builds/pic%20(6).png" alt="Project Screenshots" width="300px">
 
 ## Contributors
 - <a href="https://github.com/gvinayakgupta">Vinayak Gupta</a>
