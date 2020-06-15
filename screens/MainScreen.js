@@ -11,11 +11,7 @@ import { BalsamiqSans_400Regular } from '@expo-google-fonts/balsamiq-sans'
 function MainScreen({ navigation }) {
     let [fontsLoaded] = useFonts({
         Rubik_700Bold,
-<<<<<<< HEAD
         BalsamiqSans_400Regular
-=======
-        LobsterTwo_400Regular,
->>>>>>> ab1f0fdaa0ba132eb007c1c2a0004c51c749d3e6
     });
     const {latitude, longitude, altitude,
             carrier, theme, 
@@ -35,6 +31,10 @@ function MainScreen({ navigation }) {
         text: {
             color: themes[theme].text,
             fontSize: 18
+        },
+        text1: {
+            color: themes[theme].text,
+            fontSize: 12
         }
     });
 
@@ -66,7 +66,7 @@ function MainScreen({ navigation }) {
                         }} />
                     }
                 </MapView>
-                <Text style={[styles.text,{fontFamily: 'BalsamiqSans_400Regular'}]}>The regions shown in green have good data strength. Zoom in for more accuracy.</Text>
+                <Text style={[styles.text1,{fontFamily: 'BalsamiqSans_400Regular'}]}>The regions shown in green have good data strength. Zoom in for more accuracy.</Text>
             </View>
         );
     }

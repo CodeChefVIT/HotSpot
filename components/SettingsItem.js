@@ -46,6 +46,9 @@ function SettingsItem(props) {
             color: themes[theme].text,
             fontFamily: 'BalsamiqSans_400Regular'
         },
+        text1: {
+            fontSize: 20,
+        },
         row: {
             flexDirection: 'row',
             alignItems: 'center',
@@ -59,7 +62,7 @@ function SettingsItem(props) {
             <TouchableOpacity style={styles.container} onPress={handlePress}>
                 <View style={styles.row}>
                     {icon}
-                    <Text style={styles.text}>{props.name}</Text>
+                    <Text style={[styles.text, styles.text1]}>{props.name}</Text>
                 </View>
             </TouchableOpacity>
         )
