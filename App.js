@@ -9,6 +9,7 @@ import MainScreen from './screens/MainScreen'
 import Info from './screens/Info'
 import Settings from './screens/Settings'
 import { InfoContext } from './context/InfoContext'
+import axios from "axios";
 
 function App() {
 	const [latitude, changeLatitude] = useState("Waiting...")
@@ -72,7 +73,7 @@ function App() {
 				let url = "https://hotspotsave.herokuapp.com/post?ping=" + data["ping"] + 
 						"&latitude=" + data["latitude"] + "&longitude=" + data["longitude"] + 
 						"&isp=" + data["isp"] + "&down=" + data["down"]
-
+				
 			    let response = fetch(
 			        url,
 			        {
@@ -83,7 +84,8 @@ function App() {
 			            },
 			            body: JSON.stringify(data)
 			        }
-			    ).then(() => console.log(data))
+				).then((response) => console.log(response))
+				
 			}
 		})
 	}
@@ -125,7 +127,10 @@ function App() {
 	const getPoints = async (carr) => {
 		if(carr != "Getting Carrier....") {
 			let url = "https://hotspotsave.herokuapp.com/" + carr
-			await fetch(url).then(res => res.json()).then((result) => {
+
+			let response = await axios.get(url).then(res => {
+				res.json()
+			}).then((result) => {
 				let points = []
 				result.map((point) => {
 					let obj = {
@@ -138,7 +143,7 @@ function App() {
 					points.push(obj)
 				})
 				changeData(points)
-			})
+			}).catch(error => console.error(error));
 
 			setTimeout(() => {
 				getPoints(carr)
@@ -153,36 +158,36 @@ function App() {
 		getDownSpeed()
 	}, [])
 
-	const changeLevel = (type) => {
-        let newAlt = null
-        if(type === "increase") {
-            newAlt = displayAltitude + 50
-        } else if(type === "decrease") {
-            newAlt = displayAltitude - 50
-        }
-        changeDisplayAltitude(newAlt)
-        filterPoints()
-	}
+	// const changeLevel = (type) => {
+    //     let newAlt = null
+    //     if(type === "increase") {
+    //         newAlt = displayAltitude + 50
+    //     } else if(type === "decrease") {
+    //         newAlt = displayAltitude - 50
+    //     }
+    //     changeDisplayAltitude(newAlt)
+    //     filterPoints()
+	// }
 	
-	const filterPoints = () => {
-        const altDiff = 15
-        let newPoints = []
+	// const filterPoints = () => {
+    //     const altDiff = 15
+    //     let newPoints = []
 
-        points.map((point) => {
-            let diff = Math.abs(point.altitude - displayAltitude)
-            if(diff <= altDiff) {
-				let obj = {
-					latitude: Number(point.latitude),
-					longitude: Number(point.longitude),
-					weight: point["down"] === undefined ? 0: 
-					Number(point["down"]) >= 1000? 1000: Number(point["down"])
-				}
-                newPoints.push(obj)
-            }
-        })
+    //     points.map((point) => {
+    //         let diff = Math.abs(point.altitude - displayAltitude)
+    //         if(diff <= altDiff) {
+	// 			let obj = {
+	// 				latitude: Number(point.latitude),
+	// 				longitude: Number(point.longitude),
+	// 				weight: point["down"] === undefined ? 0: 
+	// 				Number(point["down"]) >= 1000? 1000: Number(point["down"])
+	// 			}
+    //             newPoints.push(obj)
+    //         }
+    //     })
 
-        changeHeatmapPoints(newPoints)
-    }
+    //     changeHeatmapPoints(newPoints)
+    // }
 
 	let info = {
 		latitude: latitude,
@@ -194,7 +199,7 @@ function App() {
 		theme: theme,
 		changeTheme: changeTheme,
 		points: data,
-		changeLevel: changeLevel
+		// changeLevel: changeLevel
 	}
 
 	const Drawer = createDrawerNavigator()
